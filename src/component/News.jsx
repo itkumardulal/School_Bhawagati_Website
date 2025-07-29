@@ -3,38 +3,35 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import API from "./http";
 
-
 const NewsSection = () => {
   const navigate = useNavigate();
   const [selectedNews, setSelectedNews] = useState(null);
   const [newsList, setNewsList] = useState([]);
   const [loading, setLoading] = useState(true);
 
- 
-  const currentDomain = window.location.hostname; 
+  const currentDomain = window.location.hostname;
 
   // Fetch news from API
-useEffect(() => {
-  const fetchNews = async () => {
-    try {
-      const res = await API.get("/news");
-      const allNews = res.data.data || [];
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await API.get("/news");
+        const allNews = res.data.data || [];
 
-      // Filter by domain
-      const filteredNews = allNews
-        .filter((news) => news.schoolDomain === currentDomain)
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by date DESC
+        // Filter by domain
+        const filteredNews = allNews
+          .filter((news) => news.schoolDomain === currentDomain)
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by date DESC
 
-      setNewsList(filteredNews);
-    } catch (error) {
-      console.error("Failed to fetch news:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchNews();
-}, [currentDomain]);
-
+        setNewsList(filteredNews);
+      } catch (error) {
+        console.error("Failed to fetch news:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNews();
+  }, [currentDomain]);
 
   if (loading) {
     return (
@@ -57,9 +54,13 @@ useEffect(() => {
             </div>
 
             {newsList.length === 0 ? (
-              <p className="text-center text-gray-500 text-lg">
-                No news available for this school.
-              </p>
+              <div className="flex justify-center items-center min-h-[100px]">
+                <div className="bg-white border border-gray-300 rounded-xl px-6 py-8 shadow text-center max-w-xl w-full">
+                  <p className="text-red-500 text-lg font-medium">
+                    No news available.
+                  </p>
+                </div>
+              </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-14">
                 {newsList.map((news) => (
@@ -111,14 +112,16 @@ useEffect(() => {
               </div>
             )}
 
-            <div className="w-full flex items-center justify-center mt-10">
-              <button
-                onClick={() => navigate("/notices")}
-                className="px-6 py-3 bg-white font-semibold rounded-full shadow transition-all duration-200 hover:cursor-pointer hover:bg-yellow-400"
-              >
-                View More
-              </button>
-            </div>
+            {newsList.length > 0 && (
+              <div className="w-full flex items-center justify-center mt-10">
+                <button
+                  onClick={() => navigate("/notices")}
+                  className="px-6 py-3 bg-white font-semibold rounded-full shadow transition-all duration-200 hover:cursor-pointer hover:bg-yellow-400"
+                >
+                  View More
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <div className="space-y-6 mt-10 max-w-4xl mx-auto">
@@ -142,7 +145,7 @@ useEffect(() => {
                   className="max-w-full h-auto sm:max-h-[500px] rounded-md"
                 />
               ) : (
-                <p className="text-gray-500 italic">
+                <p className="text-gray-500 italic ">
                   No image uploaded for this news.
                 </p>
               )}
@@ -153,8 +156,7 @@ useEffect(() => {
             </p>
 
             <p className="text-sm text-gray-500 mt-4">
-              Published:{" "}
-              {new Date(selectedNews.createdAt).toLocaleDateString()}
+              Published: {new Date(selectedNews.createdAt).toLocaleDateString()}
             </p>
           </div>
         )}

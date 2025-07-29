@@ -28,13 +28,13 @@ const Navbar = () => {
     <nav className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-24">
-          {/* Logo */}
-          <Link to="/">
-            <img src={logo1} alt="Bhawagati School Logo" className="h-24" />
+          {/* Logo with reduced left padding */}
+          <Link to="/" className="pl-2">
+            <img src={logo1} alt="Bhawagati School Logo" className="h-20" />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Desktop Navigation - shows only on xl screens and above */}
+          <div className="hidden xl:flex items-center space-x-8">
             {navigationItems.map((item) => (
               <Link
                 key={item.path}
@@ -50,16 +50,16 @@ const Navbar = () => {
             ))}
             <Link
               to="/admissions"
-              className="ml-4 px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition text-lg"
+              className="ml-2 mr-2 px-3 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition text-lg"
             >
               Apply Now
             </Link>
           </div>
 
-          {/* Mobile Toggle Button */}
+          {/* Mobile Toggle Button - visible below xl */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-md hover:bg-gray-100 transition"
+            className="xl:hidden p-2 rounded-md hover:bg-gray-100 transition"
             aria-label={isOpen ? "Close Menu" : "Open Menu"}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -67,9 +67,9 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Panel - Dropdown from Top */}
+      {/* Mobile Navigation Panel - shows below xl */}
       {isOpen && (
-        <div className="md:hidden px-4 pb-4 pt-2 bg-white shadow-lg border-t border-gray-200">
+        <div className="xl:hidden px-4 pb-4 pt-2 bg-white shadow-lg border-t border-gray-200">
           <div className="flex flex-col space-y-4">
             {navigationItems.map((item) => (
               <Link
@@ -98,3 +98,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+a

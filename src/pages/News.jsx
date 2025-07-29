@@ -9,16 +9,16 @@ const NewsSection = () => {
   const [selectedNews, setSelectedNews] = useState(null);
 
   // Get current domain
-  const currentDomain = window.location.hostname; 
+  const currentDomain = window.location.hostname;
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await API.get("/news"); 
+        const response = await API.get("/news");
         if (response.status === 200) {
-          const filtered = response.data.data.filter(
-            (item) => item.schoolDomain === currentDomain
-          ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          const filtered = response.data.data
+            .filter((item) => item.schoolDomain === currentDomain)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setNewsList(filtered);
         }
       } catch (error) {
@@ -44,54 +44,64 @@ const NewsSection = () => {
             </div>
 
             {/* News Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-14">
-              {newsList.map((news) => (
-                <div
-                  key={news.id}
-                  className="bg-white rounded-2xl shadow-md border border-gray-200 flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="overflow-hidden group">
-                    <div className="w-full h-48 sm:h-56 md:h-60 lg:h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
-                      {news.imgUrl ? (
-                        <img
-                          src={news.imgUrl}
-                          alt={news.title}
-                          className="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-105"
-                        />
-                      ) : (
-                        <span className="text-gray-500 text-base text-center">
-                          No image to uploaded for this news
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3 className="text-2xl font-semibold text-gray-900 line-clamp-2">
-                        {news.title}
-                      </h3>
-                      <p className="text-gray-600 text-base mt-2 line-clamp-1">
-                        {news.description}
-                      </p>
-                      <p className="text-sm text-gray-500 mt-1">
-                        Published:{" "}
-                        {new Date(news.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-
-                    <div className="mt-4">
-                      <button
-                        onClick={() => setSelectedNews(news)}
-                        className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition hover:cursor-pointer"
-                      >
-                        Read More
-                      </button>
-                    </div>
-                  </div>
+            {newsList.length === 0 ? (
+              <div className="flex justify-center items-center min-h-[100px]">
+                <div className="bg-white border border-gray-300 rounded-xl px-6 py-8 shadow text-center max-w-xl w-full">
+                  <p className="text-red-500 text-lg font-medium">
+                    No news available.
+                  </p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-14">
+                {newsList.map((news) => (
+                  <div
+                    key={news.id}
+                    className="bg-white rounded-2xl shadow-md border border-gray-200 flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="overflow-hidden group">
+                      <div className="w-full h-48 sm:h-56 md:h-60 lg:h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
+                        {news.imgUrl ? (
+                          <img
+                            src={news.imgUrl}
+                            alt={news.title}
+                            className="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-105"
+                          />
+                        ) : (
+                          <span className="text-gray-500 text-base text-center">
+                            No image to uploaded for this news
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="p-5 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="text-2xl font-semibold text-gray-900 line-clamp-2">
+                          {news.title}
+                        </h3>
+                        <p className="text-gray-600 text-base mt-2 line-clamp-1">
+                          {news.description}
+                        </p>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Published:{" "}
+                          {new Date(news.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+
+                      <div className="mt-4">
+                        <button
+                          onClick={() => setSelectedNews(news)}
+                          className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition hover:cursor-pointer"
+                        >
+                          Read More
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </>
         ) : (
           // Expanded news view

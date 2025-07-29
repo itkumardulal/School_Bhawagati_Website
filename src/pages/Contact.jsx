@@ -3,6 +3,8 @@ import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
 import API from "../component/http";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -20,32 +22,36 @@ const Contact = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const domain = window.location.hostname;
-      await API.post("/message", {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        emailAddress: formData.emailAddress,
-        phoneNumber: formData.phoneNumber,
-        message: formData.message,
-        schoolDomain: domain,
-      });
+  e.preventDefault();
+  try {
+    const domain = window.location.hostname;
 
-      alert("Message sent successfully");
-      setFormData({
-        firstName: "",
-        lastName: "",
-        emailAddress: "",
-        phoneNumber: "",
-        subject: "",
-        message: "",
-      });
-    } catch (error) {
-      console.error("Error submitting message:", error);
-      alert(error.response?.data?.message || "Submission failed");
-    }
-  };
+    await API.post("/message", {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      emailAddress: formData.emailAddress,
+      phoneNumber: formData.phoneNumber,
+      subject: formData.subject,
+      message: formData.message,
+      schoolDomain: domain,
+    });
+
+    toast.success("Message sent successfully!");
+
+    setFormData({
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
+      phoneNumber: "",
+      subject: "",
+      message: "",
+    });
+  } catch (error) {
+    console.error("Error submitting message:", error);
+    toast.error(error.response?.data?.message || "Submission failed. Please try again.");
+  }
+};
+
   const contactInfo = [
     {
       icon: MapPin,

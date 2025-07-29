@@ -1,5 +1,6 @@
 import React from 'react'
 import principalImage from "../assets/principal.jpg";
+
 const Message = () => {
   return (
     <>

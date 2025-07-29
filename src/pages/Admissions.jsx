@@ -10,6 +10,8 @@ import {
 import Footer from "../component/Footer";
 import Navbar from "../component/Navbar";
 import API from "../component/http";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const admissionProcess = [
   {
@@ -233,32 +235,35 @@ const Admissions = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const domain = window.location.hostname; // e.g. "localhost:5174"
-      await API.post("/admission", {
-        ...formData,
-        schoolDomain: domain,
-      });
+  e.preventDefault();
+  try {
+    const domain = window.location.hostname;
 
-      alert("Admission form submitted successfully");
-      setFormData({
-        fullName: "",
-        gradeApplyingFor: "",
-        dob: "",
-        gender: "",
-        guardianName: "",
-        phoneNumber: "",
-        emailAddress: "",
-        Address: "",
-        previousSchool: "",
-        additionalInformation: "",
-      });
-    } catch (error) {
-      console.error("Error submitting admission:", error);
-      alert(error.response?.data?.message || "Submission failed");
-    }
-  };
+    await API.post("/admission", {
+      ...formData,
+      schoolDomain: domain,
+    });
+
+    toast.success("Admission form submitted successfully!");
+
+    setFormData({
+      fullName: "",
+      gradeApplyingFor: "",
+      dob: "",
+      gender: "",
+      guardianName: "",
+      phoneNumber: "",
+      emailAddress: "",
+      Address: "",
+      previousSchool: "",
+      additionalInformation: "",
+    });
+  } catch (error) {
+    console.error("Error submitting admission:", error);
+    toast.error(error.response?.data?.message || "Submission failed. Please try again.");
+  }
+};
+
 
   return (
     <>

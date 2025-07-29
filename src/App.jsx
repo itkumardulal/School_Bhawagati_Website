@@ -6,8 +6,8 @@ import Academics from './pages/Academics';
 import Admissions from './pages/Admissions';
 import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
-import News from './component/News';
 import NewsSection from './pages/News';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   return (
@@ -21,6 +21,7 @@ const App = () => {
         <Route path='/gallery' element= {<Gallery/>} />
         <Route path='/notices' element={<NewsSection/>} />
       </Routes>
+       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
   );
 };
