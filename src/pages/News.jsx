@@ -3,16 +3,19 @@ import { ArrowLeft } from "lucide-react";
 import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
 import API from "../component/http";
+import Loader from "../component/Loader/Loader";
 
 const NewsSection = () => {
   const [newsList, setNewsList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedNews, setSelectedNews] = useState(null);
 
-  // Get current domain
+  // Get current domain once
   const currentDomain = window.location.hostname;
 
   useEffect(() => {
     const fetchNews = async () => {
+      setLoading(true);
       try {
         const response = await API.get("/news");
         if (response.status === 200) {
@@ -23,11 +26,17 @@ const NewsSection = () => {
         }
       } catch (error) {
         console.error("Error fetching news:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchNews();
   }, [currentDomain]);
+
+  if (loading) {
+    return <Loader/>;
+  }
 
   return (
     <>
@@ -48,7 +57,7 @@ const NewsSection = () => {
               <div className="flex justify-center items-center min-h-[100px]">
                 <div className="bg-white border border-gray-300 rounded-xl px-6 py-8 shadow text-center max-w-xl w-full">
                   <p className="text-red-500 text-lg font-medium">
-                    No news available.
+                    No news updates are available at this time. Please revisit this section soon.
                   </p>
                 </div>
               </div>

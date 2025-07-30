@@ -31,7 +31,6 @@ const Contact = () => {
       lastName: formData.lastName,
       emailAddress: formData.emailAddress,
       phoneNumber: formData.phoneNumber,
-      subject: formData.subject,
       message: formData.message,
       schoolDomain: domain,
     });
@@ -43,7 +42,6 @@ const Contact = () => {
       lastName: "",
       emailAddress: "",
       phoneNumber: "",
-      subject: "",
       message: "",
     });
   } catch (error) {
@@ -80,45 +78,6 @@ const Contact = () => {
     },
   ];
 
-  const formFields = [
-    {
-      id: "firstName",
-      label: "First Name *",
-      type: "text",
-      placeholder: "Your first name",
-    },
-    {
-      id: "lastName",
-      label: "Last Name *",
-      type: "text",
-      placeholder: "Your last name",
-    },
-    {
-      id: "email",
-      label: "Email Address *",
-      type: "email",
-      placeholder: "Your email address",
-    },
-    {
-      id: "phone",
-      label: "Phone Number",
-      type: "text",
-      placeholder: "Your phone number",
-    },
-    {
-      id: "subject",
-      label: "Subject *",
-      type: "text",
-      placeholder: "Message subject",
-    },
-    {
-      id: "message",
-      label: "Message *",
-      type: "textarea",
-      placeholder: "Type your message...",
-      rows: 5,
-    },
-  ];
 
   return (
     <>
@@ -261,7 +220,7 @@ const Contact = () => {
                       htmlFor="emailAddress"
                       className="block mb-1 text-base font-medium text-gray-700"
                     >
-                      Email Address *
+                      Email Address 
                     </label>
                     <input
                       id="emailAddress"
@@ -278,30 +237,13 @@ const Contact = () => {
                       htmlFor="phoneNumber"
                       className="block mb-1 text-base font-medium text-gray-700"
                     >
-                      Phone Number
+                      Phone Number *
                     </label>
                     <input
                       id="phoneNumber"
                       type="text"
                       placeholder="Your phone number"
                       value={formData.phoneNumber}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="subject"
-                      className="block mb-1 text-base font-medium text-gray-700"
-                    >
-                      Subject
-                    </label>
-                    <input
-                      id="subject"
-                      type="text"
-                      placeholder="Message subject"
-                      value={formData.subject}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     />

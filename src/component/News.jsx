@@ -57,7 +57,7 @@ const NewsSection = () => {
               <div className="flex justify-center items-center min-h-[100px]">
                 <div className="bg-white border border-gray-300 rounded-xl px-6 py-8 shadow text-center max-w-xl w-full">
                   <p className="text-red-500 text-lg font-medium">
-                    No news available.
+                  No news updates are available at this time. Please revisit this section soon.
                   </p>
                 </div>
               </div>
