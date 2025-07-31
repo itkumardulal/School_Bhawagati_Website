@@ -4,7 +4,7 @@ import CountUp from "react-countup";
 
 const Stats = () => {
   const data = [
-    { icon: Users, label: "Students", count: 1200 },
+    { icon: Users, label: "Students", count: 1400 },
     { icon: BookOpen, label: "Courses", count: 25 },
     { icon: Award, label: "Awards", count: 50 },
     { icon: Star, label: "Years", count: 39 },
