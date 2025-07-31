@@ -32,10 +32,10 @@ const Message = () => {
     
                   {/* Message */}
                   <div className="md:w-2/3 space-y-5 text-[1.1rem] leading-8 text-gray-800">
-                    <p>
+                    <p className='text-justify leading-relaxed'>
                       As ChairMan, I’m honored to lead our esteemed institution. Our focus is on nurturing every student academically, emotionally, and socially. With dedicated faculty and supportive parents, we’re committed to excellence and holistic development. Together, let’s make this year one of growth, achievement, and positive impact.
                     </p>
-                    <p>
+                    <p className='text-justify leading-relaxed'>
                       I encourage all students to embrace new opportunities, challenge themselves, and strive for their personal best. With determination and perseverance, we can create a vibrant learning community where each individual can shine.
                     </p>
                     <p>

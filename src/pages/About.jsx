@@ -67,7 +67,7 @@ const About = () => {
             </div>
 
             <div className="pt-8 px-4 sm:px-6 space-y-6 text-[1.15rem] leading-8 text-gray-800">
-              <p>
+              <p className="text-justify leading-relaxed">
                 Founded in the year 2048 BS under the name Bhagawati English
                 Secondary School, our esteemed institution has been an
                 unwavering bastion of educational excellence in the beautiful
@@ -75,7 +75,7 @@ const About = () => {
                 and approval of the Government of Nepal, cementing our status as
                 a trusted provider of quality education.
               </p>
-              <p>
+              <p className="text-justify leading-relaxed">
                 Since our affiliation with the Higher Secondary Education Board
                 in 2067, Bhagawati English Secondary School has been on an
                 inspiring journey of academic growth and achievement. With each
@@ -83,7 +83,7 @@ const About = () => {
                 excellence, a testament to our commitment to nurturing the
                 intellectual curiosity and potential of our students.
               </p>
-              <p>
+              <p className="text-justify leading-relaxed">
                 Celebrating our 32 years in operation, Bhagawati English
                 Secondary School stands as a shining example of dedication and
                 perseverance in the realm of education. Our consistent track
@@ -91,7 +91,7 @@ const About = () => {
                 expertise of our faculty members and the diligence of our
                 students.
               </p>
-              <p>
+              <p className="text-justify leading-relaxed">
                 Nestled in the serene and picturesque surroundings of Kamalamal
                 Municipality-06, Madhibazar, Sindhull, our school offers more
                 than just a place of learning—it provides a sanctuary for
@@ -100,7 +100,7 @@ const About = () => {
                 deeper into their studies, fostering a love for learning that
                 extends beyond the confines of the classroom.
               </p>
-              <p>
+              <p className="text-justify leading-relaxed">
                 Throughout our history, Bhagawati English Secondary School has
                 left an indelible mark on the educational landscape of the
                 bagmati province. Our commitment to excellence has not only
@@ -109,12 +109,13 @@ const About = () => {
                 with the knowledge, skills, and values needed to succeed in an
                 ever-changing world
               </p>
-              <p></p>As we embark on the next phase of our journey, Bhagawati
+              <p className="text-justify leading-relaxed">As we embark on the next phase of our journey, Bhagawati
               English Secondary School remains steadfast in its mission to
               empower and inspire the leaders of tomorrow. We invite you to join
               us in this noble pursuit as we continue to uphold the highest
               standards of education and shape the future of Nepal, one student
               at a time.
+              </p>
             </div>
           </section>
 

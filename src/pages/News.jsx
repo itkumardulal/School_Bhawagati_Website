@@ -25,7 +25,9 @@ const NewsSection = () => {
           setNewsList(filtered);
         }
       } catch (error) {
-        console.error("Error fetching news:", error);
+        if (process.env.NODE_ENV === "development") {
+          console.error("Failed to fetch news:", error);
+        }
       } finally {
         setLoading(false);
       }
@@ -35,7 +37,7 @@ const NewsSection = () => {
   }, [currentDomain]);
 
   if (loading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   return (
@@ -57,7 +59,8 @@ const NewsSection = () => {
               <div className="flex justify-center items-center min-h-[100px]">
                 <div className="bg-white border border-gray-300 rounded-xl px-6 py-8 shadow text-center max-w-xl w-full">
                   <p className="text-red-500 text-lg font-medium">
-                    No news updates are available at this time. Please revisit this section soon.
+                    No news updates are available at this time. Please revisit
+                    this section soon.
                   </p>
                 </div>
               </div>

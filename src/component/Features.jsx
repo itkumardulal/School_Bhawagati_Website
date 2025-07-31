@@ -19,7 +19,7 @@ const Features = () => {
               <h2 className="mb-4 text-3xl text-center  font-semibold text-blue-950">
                 {f.title}
               </h2>
-              <p className="text-gray-600 text-xl">{f.body}</p>
+              <p className="text-gray-600 text-xl text-justify leading-relaxed">{f.body}</p>
             </div>
           ))}
         </div>
