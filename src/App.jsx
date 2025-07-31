@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Academics from './pages/Academics';
@@ -8,7 +8,7 @@ import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
 import NewsSection from './pages/News';
 import { ToastContainer } from 'react-toastify';
-import NotFound from './pages/NotFound';
+
 
 const App = () => {
   return (
@@ -21,7 +21,7 @@ const App = () => {
         <Route path='/contact' element= {<Contact/>} />
         <Route path='/gallery' element= {<Gallery/>} />
         <Route path='/notices' element={<NewsSection/>} />
-        <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
        <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
