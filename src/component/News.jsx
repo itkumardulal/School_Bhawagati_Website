@@ -12,14 +12,14 @@ const NewsSection = () => {
 
   const currentDomain = window.location.hostname;
 
-  // Fetch news from API 
+  // Fetch news from API
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const res = await API.get("/news");
-        const allNews = res.data.data || [] 
+        const allNews = res.data.data || [];
 
-        setNewsList(allNews.slice(0,2));
+        setNewsList(allNews.slice(0, 2));
       } catch (error) {
         if (process.env.NODE_ENV === "development") {
           console.error("Failed to fetch news:", error);
@@ -84,9 +84,10 @@ const NewsSection = () => {
                         <h3 className="text-2xl font-semibold text-gray-900 line-clamp-2">
                           {news.title}
                         </h3>
-                        <p className="text-gray-600 text-base mt-2 line-clamp-1 text-justify leading-relaxed">
+                        <p className="text-gray-700 text-base mt-2 text-justify leading-relaxed whitespace-pre-wrap">
                           {news.description}
                         </p>
+
                         <p className="text-sm text-gray-500 mt-1">
                           Published:{" "}
                           {new Date(news.createdAt).toLocaleDateString()}
