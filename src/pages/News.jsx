@@ -9,36 +9,30 @@ const NewsSection = () => {
   const [newsList, setNewsList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedNews, setSelectedNews] = useState(null);
-
-  // Get current domain once
   const currentDomain = window.location.hostname;
-
-  useEffect(() => {
-    const fetchNews = async () => {
-      setLoading(true);
-      try {
-        const response = await API.get("/news");
-        if (response.status === 200) {
-          const filtered = response.data.data
-            .filter((item) => item.schoolDomain === currentDomain)
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          setNewsList(filtered);
+    useEffect(() => {
+      const fetchNews = async () => {
+        setLoading(true);
+        try {
+          const response = await API.get("/news");
+          if (response.status === 200) {
+            setNewsList(response.data.data);
+          }
+        } catch (error) {
+          if (process.env.NODE_ENV === "development") {
+            console.error("Failed to fetch news:", error);
+          }
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        if (process.env.NODE_ENV === "development") {
-          console.error("Failed to fetch news:", error);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
-    fetchNews();
-  }, [currentDomain]);
+      fetchNews();
+    }, [currentDomain]);
 
-  if (loading) {
-    return <Loader />;
-  }
+    if (loading) {
+      return <Loader />;
+    }
 
   return (
     <>

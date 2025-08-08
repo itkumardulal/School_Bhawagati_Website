@@ -8,6 +8,7 @@ import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
 import NewsSection from './pages/News';
 import { ToastContainer } from 'react-toastify';
+import Notice from './pages/Notice';
 
 
 const App = () => {
@@ -20,7 +21,8 @@ const App = () => {
         <Route path="/admissions" element={<Admissions />} />
         <Route path='/contact' element= {<Contact/>} />
         <Route path='/gallery' element= {<Gallery/>} />
-        <Route path='/notices' element={<NewsSection/>} />
+        <Route path='/news' element={<NewsSection/>} />
+        <Route path = '/notices' element = {<Notice/>} />
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
        <ToastContainer position="top-right" autoClose={3000} />

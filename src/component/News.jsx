@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import API from "./http";
+import Loader from "./Loader/Loader";
 
 const NewsSection = () => {
   const navigate = useNavigate();
@@ -11,19 +12,14 @@ const NewsSection = () => {
 
   const currentDomain = window.location.hostname;
 
-  // Fetch news from API
+  // Fetch news from API 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const res = await API.get("/news");
-        const allNews = res.data.data || [];
+        const allNews = res.data.data || [] 
 
-        // Filter by domain
-        const filteredNews = allNews
-          .filter((news) => news.schoolDomain === currentDomain)
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by date DESC
-
-        setNewsList(filteredNews);
+        setNewsList(allNews.slice(0,2));
       } catch (error) {
         if (process.env.NODE_ENV === "development") {
           console.error("Failed to fetch news:", error);
@@ -36,11 +32,7 @@ const NewsSection = () => {
   }, [currentDomain]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-lg text-gray-600">Loading news...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
@@ -118,7 +110,7 @@ const NewsSection = () => {
             {newsList.length > 0 && (
               <div className="w-full flex items-center justify-center mt-10">
                 <button
-                  onClick={() => navigate("/notices")}
+                  onClick={() => navigate("/news")}
                   className="px-6 py-3 bg-white font-semibold rounded-full shadow transition-all duration-200 hover:cursor-pointer hover:bg-yellow-400"
                 >
                   View More
