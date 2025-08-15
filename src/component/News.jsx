@@ -146,7 +146,7 @@ const NewsSection = () => {
               )}
             </div>
 
-            <p className="text-base text-gray-700 leading-relaxed whitespace-pre-line">
+            <p className="text-base text-gray-700 leading-relaxed whitespace-pre-line text-justify">
               {selectedNews.description}
             </p>
 
