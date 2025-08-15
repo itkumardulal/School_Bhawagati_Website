@@ -238,8 +238,7 @@ const Admissions = () => {
     e.preventDefault();
     try {
       const hostname = window.location.hostname;
-      const parts = hostname.split(".");
-      const domain = parts.length > 2 ? parts.slice(1).join(".") : hostname;
+    const domain = hostname.replace(/^www\./, '');
 
       await API.post("/admission", {
         ...formData,
