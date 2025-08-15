@@ -10,29 +10,29 @@ const NewsSection = () => {
   const [loading, setLoading] = useState(true);
   const [selectedNews, setSelectedNews] = useState(null);
   const currentDomain = window.location.hostname;
-    useEffect(() => {
-      const fetchNews = async () => {
-        setLoading(true);
-        try {
-          const response = await API.get("/news");
-          if (response.status === 200) {
-            setNewsList(response.data.data);
-          }
-        } catch (error) {
-          if (process.env.NODE_ENV === "development") {
-            console.error("Failed to fetch news:", error);
-          }
-        } finally {
-          setLoading(false);
+  useEffect(() => {
+    const fetchNews = async () => {
+      setLoading(true);
+      try {
+        const response = await API.get("/news");
+        if (response.status === 200) {
+          setNewsList(response.data.data);
         }
-      };
+      } catch (error) {
+        if (process.env.NODE_ENV === "development") {
+          console.error("Failed to fetch news:", error);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      fetchNews();
-    }, [currentDomain]);
+    fetchNews();
+  }, [currentDomain]);
 
-    if (loading) {
-      return <Loader />;
-    }
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -86,7 +86,7 @@ const NewsSection = () => {
                         <h3 className="text-2xl font-semibold text-gray-900 line-clamp-2">
                           {news.title}
                         </h3>
-                        <p className="text-gray-600 text-base mt-2 line-clamp-1 text-justify leading-relaxed">
+                        <p className="text-gray-600 text-base mt-2  text-justify leading-relaxed">
                           {news.description}
                         </p>
                         <p className="text-sm text-gray-500 mt-1">
@@ -138,7 +138,7 @@ const NewsSection = () => {
               )}
             </div>
 
-            <p className="text-xl text-gray-700 leading-relaxed whitespace-pre-line">
+            <p className="text-xl text-gray-700 leading-relaxed whitespace-pre-line text-justify">
               {selectedNews.description}
             </p>
 

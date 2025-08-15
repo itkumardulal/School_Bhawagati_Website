@@ -22,33 +22,37 @@ const Contact = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const domain = window.location.hostname;
+    e.preventDefault();
+    try {
+      const hostname = window.location.hostname;
+      const parts = hostname.split(".");
+      const domain = parts.length > 2 ? parts.slice(1).join(".") : hostname;
 
-    await API.post("/message", {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      emailAddress: formData.emailAddress,
-      phoneNumber: formData.phoneNumber,
-      message: formData.message,
-      schoolDomain: domain,
-    });
+      await API.post("/message", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        emailAddress: formData.emailAddress,
+        phoneNumber: formData.phoneNumber,
+        message: formData.message,
+        schoolDomain: domain,
+      });
 
-    toast.success("Message sent successfully!");
+      toast.success("Message sent successfully!");
 
-    setFormData({
-      firstName: "",
-      lastName: "",
-      emailAddress: "",
-      phoneNumber: "",
-      message: "",
-    });
-  } catch (error) {
-    console.error("Error submitting message:", error);
-    toast.error(error.response?.data?.message || "Submission failed. Please try again.");
-  }
-};
+      setFormData({
+        firstName: "",
+        lastName: "",
+        emailAddress: "",
+        phoneNumber: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting message:", error);
+      toast.error(
+        error.response?.data?.message || "Submission failed. Please try again."
+      );
+    }
+  };
 
   const contactInfo = [
     {
@@ -77,7 +81,6 @@ const Contact = () => {
       details: ["Sun - Fri: 10 AM - 5 PM", "Sat: Closed"],
     },
   ];
-
 
   return (
     <>
@@ -220,7 +223,7 @@ const Contact = () => {
                       htmlFor="emailAddress"
                       className="block mb-1 text-base font-medium text-gray-700"
                     >
-                      Email Address 
+                      Email Address
                     </label>
                     <input
                       id="emailAddress"

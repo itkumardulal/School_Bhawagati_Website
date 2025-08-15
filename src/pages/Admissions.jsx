@@ -235,35 +235,38 @@ const Admissions = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const domain = window.location.hostname;
+    e.preventDefault();
+    try {
+      const hostname = window.location.hostname;
+      const parts = hostname.split(".");
+      const domain = parts.length > 2 ? parts.slice(1).join(".") : hostname;
 
-    await API.post("/admission", {
-      ...formData,
-      schoolDomain: domain,
-    });
+      await API.post("/admission", {
+        ...formData,
+        schoolDomain: domain,
+      });
 
-    toast.success("Admission form submitted successfully!");
+      toast.success("Admission form submitted successfully!");
 
-    setFormData({
-      fullName: "",
-      gradeApplyingFor: "",
-      dob: "",
-      gender: "",
-      guardianName: "",
-      phoneNumber: "",
-      emailAddress: "",
-      Address: "",
-      previousSchool: "",
-      additionalInformation: "",
-    });
-  } catch (error) {
-    console.error("Error submitting admission:", error);
-    toast.error(error.response?.data?.message || "Submission failed. Please try again.");
-  }
-};
-
+      setFormData({
+        fullName: "",
+        gradeApplyingFor: "",
+        dob: "",
+        gender: "",
+        guardianName: "",
+        phoneNumber: "",
+        emailAddress: "",
+        Address: "",
+        previousSchool: "",
+        additionalInformation: "",
+      });
+    } catch (error) {
+      console.error("Error submitting admission:", error);
+      toast.error(
+        error.response?.data?.message || "Submission failed. Please try again."
+      );
+    }
+  };
 
   return (
     <>
@@ -430,7 +433,7 @@ const Admissions = () => {
                           "Grade 8",
                           "Grade 9",
                           "Grade 10",
-                          "+2 Program"
+                          "+2 Program",
                         ].map((grade) => (
                           <option key={grade} value={grade}>
                             {grade}
