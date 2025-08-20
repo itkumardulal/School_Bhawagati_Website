@@ -24,9 +24,9 @@ const Message = () => {
                     <div className="mt-5">
                       <h3 className="font-semibold text-xl">Krishna Kumar Upreti</h3>
                       <p className="text-sm text-gray-600">ChairMan</p>
-                      <span className="inline-block mt-3 px-4 py-1 border rounded-full text-sm border-gray-400 text-gray-700">
+                      {/* <span className="inline-block mt-3 px-4 py-1 border rounded-full text-sm border-gray-400 text-gray-700">
                         Ph.D. in Educational Leadership
-                      </span>
+                      </span> */}
                     </div>
                   </div>
     

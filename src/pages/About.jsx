@@ -155,9 +155,9 @@ const About = () => {
                   <p className="text-blue-700 font-medium mb-1">
                     {member.position}
                   </p>
-                  <p className="text-sm text-gray-600 mb-2">
+                  {/* <p className="text-sm text-gray-600 mb-2">
                     {member.qualification}
-                  </p>
+                  </p> */}
                   <span className="inline-block px-3 py-1 border rounded-full text-sm border-gray-300 text-gray-700">
                     {member.experience}
                   </span>
