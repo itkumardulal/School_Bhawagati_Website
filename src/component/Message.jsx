@@ -38,6 +38,9 @@ const Message = () => {
                     <p className='text-justify leading-relaxed'>
                       I encourage all students to embrace new opportunities, challenge themselves, and strive for their personal best. With determination and perseverance, we can create a vibrant learning community where each individual can shine.
                     </p>
+                      <p className='text-justify leading-relaxed'>
+                     We believe that education must be deeply connected with human culture and values. Without culture and discipline, an individual remains incomplete and directionless. Therefore, we emphasize nurturing every child with strong cultural values and discipline before imparting academic knowledge. By integrating these principles, we aim to shape children into skillful, responsible, and productive members of society.
+                    </p>
                     <p>
                      Best regards,
                     </p>
