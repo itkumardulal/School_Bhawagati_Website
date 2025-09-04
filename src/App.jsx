@@ -9,7 +9,8 @@ import Gallery from './pages/Gallery';
 import NewsSection from './pages/News';
 import { ToastContainer } from 'react-toastify';
 import Notice from './pages/Notice';
-
+import Blog from './pages/Blog';
+import Clubs from './pages/Club';
 
 const App = () => {
   return (
@@ -23,6 +24,8 @@ const App = () => {
         <Route path='/gallery' element= {<Gallery/>} />
         <Route path='/news' element={<NewsSection/>} />
         <Route path = '/notices' element = {<Notice/>} />
+        <Route path = '/blogs' element = {<Blog/>} />
+        <Route path = '/club' element = {<Clubs/>} />
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
        <ToastContainer position="top-right" autoClose={3000} />
