@@ -21,13 +21,12 @@ import API from "../component/http";
 import Loader from "../component/Loader/Loader";
 
 const Blog = () => {
- 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [expandedPost, setExpandedPost] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
- const currentPost = posts.find((p) => p.id === expandedPost);
+  const currentPost = posts.find((p) => p.id === expandedPost);
   const categories = [
     "All",
     "Education",
