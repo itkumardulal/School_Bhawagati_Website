@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import {
   Search,
   Calendar,
@@ -20,12 +21,13 @@ import API from "../component/http";
 import Loader from "../component/Loader/Loader";
 
 const Blog = () => {
+ 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [expandedPost, setExpandedPost] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
+ const currentPost = posts.find((p) => p.id === expandedPost);
   const categories = [
     "All",
     "Education",
@@ -131,29 +133,45 @@ const Blog = () => {
               </div>
             </div>
           )}
+          {expandedPost && currentPost && (
+            <>
+              <Helmet>
+                <title>{currentPost.title}</title>
+                <meta property="og:title" content={currentPost.title} />
+                <meta
+                  property="og:description"
+                  content={`${currentPost.title} by ${
+                    currentPost.author
+                  }: ${currentPost.content
+                    .replace(/<[^>]+>/g, "")
+                    .slice(0, 150)}...`}
+                />
+                <meta property="og:type" content="article" />
+                <meta property="og:url" content={window.location.href} />
+              </Helmet>
 
-          {expandedPost && (
-            <div className="mb-6 mt-6 w-full max-w-3xl mx-auto px-8 sm:px-12 flex flex-row flex-wrap gap-3 items-center">
-              {/* Back Button */}
-              <button
-                onClick={() => setExpandedPost(null)}
-                className="flex items-center gap-2 text-white font-semibold border border-blue-500 bg-blue-500 rounded-[9px] px-4 py-2 text-sm sm:text-base hover:bg-blue-600 cursor-pointer"
-              >
-                <ArrowLeft className="w-5 h-5" /> Back
-              </button>
+              <div className="mb-6 mt-6 w-full max-w-3xl mx-auto px-8 sm:px-12 flex flex-row flex-wrap gap-3 items-center">
+                {/* Back Button */}
+                <button
+                  onClick={() => setExpandedPost(null)}
+                  className="flex items-center gap-2 text-white font-semibold border border-blue-500 bg-blue-500 rounded-[9px] px-4 py-2 text-sm sm:text-base hover:bg-blue-600 cursor-pointer"
+                >
+                  <ArrowLeft className="w-5 h-5" /> Back
+                </button>
 
-              {/* Facebook Share Button */}
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                  window.location.href
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[9px] text-sm sm:text-base shadow transition"
-              >
-                <Share2 className="w-5 h-5" /> Share on Facebook
-              </a>
-            </div>
+                {/* Facebook Share Button */}
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                    window.location.href
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[9px] text-sm sm:text-base shadow transition"
+                >
+                  <Share2 className="w-5 h-5" /> Share on Facebook
+                </a>
+              </div>
+            </>
           )}
 
           {filteredPosts.length === 0 ? (
@@ -252,11 +270,13 @@ const Blog = () => {
                     </div>
 
                     <div className="flex justify-between items-center mt-6 text-sm sm:text-base text-gray-500 flex-wrap gap-2">
-                      <span className="text-gray-500 text-sm italic">By {post.author}</span>
+                      <span className="text-gray-500 text-sm italic">
+                        By {post.author}
+                      </span>
                       <span className="flex items-center gap-1">
                         <Calendar className="w-4 h-4 text-blue-500" />
                         {new Date(post.createdAt).toLocaleDateString()}
-                      </span> 
+                      </span>
                     </div>
                   </div>
                 );
