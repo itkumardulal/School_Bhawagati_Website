@@ -229,12 +229,12 @@ const Blog = () => {
                               // Heading detection (I., II., etc.)
                               if (/^[IVXLCDM]+\./.test(line.trim())) {
                                 return (
-                                  <h2
+                                  <h3
                                     key={index}
                                     className="font-bold text-xl sm:text-2xl md:text-3xl mt-4 mb-2"
                                   >
                                     {line.trim()}
-                                  </h2>
+                                  </h3>
                                 );
                               }
                               // Numbered list detection (1., 2., etc.)
