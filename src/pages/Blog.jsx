@@ -9,6 +9,7 @@ import {
   Dumbbell,
   Star,
   ArrowLeft,
+  Share2,
 } from "lucide-react";
 import Footer from "../component/Footer";
 import Navbar from "../component/Navbar";
@@ -25,7 +26,14 @@ const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const categories = ["All", "Education", "Achievement", "Environment", "Sports", "Arts"];
+  const categories = [
+    "All",
+    "Education",
+    "Achievement",
+    "Environment",
+    "Sports",
+    "Arts",
+  ];
   const categoryIcons = {
     Education: BookOpen,
     Achievement: Trophy,
@@ -37,23 +45,22 @@ const Blog = () => {
   // Fetch blogs from API
   const currentDomain = window.location.hostname;
 
-useEffect(() => {
-  const fetchBlogs = async () => {
-    setLoading(true);
-    try {
-      const res = await API.get("/blogs");
-      const allBlogs = res.data.data || [];
-      setPosts(allBlogs);
-    } catch (error) {
-      toast.error("Failed to fetch blogs");
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      setLoading(true);
+      try {
+        const res = await API.get("/blogs");
+        const allBlogs = res.data.data || [];
+        setPosts(allBlogs);
+      } catch (error) {
+        toast.error("Failed to fetch blogs");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchBlogs();
-}, [currentDomain]);
-
+    fetchBlogs();
+  }, [currentDomain]);
 
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
@@ -89,7 +96,9 @@ useEffect(() => {
           </div>
         )}
 
-        {!expandedPost && <div className="border-t-2 border-blue-200 py-6 mb-4"></div>}
+        {!expandedPost && (
+          <div className="border-t-2 border-blue-200 py-6 mb-4"></div>
+        )}
 
         <div className="container mx-auto pb-6 px-4 sm:px-6 lg:px-8 mb-8">
           {!expandedPost && (
@@ -124,23 +133,44 @@ useEffect(() => {
           )}
 
           {expandedPost && (
-            <div className="mb-6 mt-6 w-full max-w-3xl mx-auto px-8 sm:px-12">
+            <div className="mb-6 mt-6 w-full max-w-3xl mx-auto px-8 sm:px-12 flex flex-row flex-wrap gap-3 items-center">
+              {/* Back Button */}
               <button
                 onClick={() => setExpandedPost(null)}
                 className="flex items-center gap-2 text-white font-semibold border border-blue-500 bg-blue-500 rounded-[9px] px-4 py-2 text-sm sm:text-base hover:bg-blue-600 cursor-pointer"
               >
                 <ArrowLeft className="w-5 h-5" /> Back
               </button>
+
+              {/* Facebook Share Button */}
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                  window.location.href
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[9px] text-sm sm:text-base shadow transition"
+              >
+                <Share2 className="w-5 h-5" /> Share on Facebook
+              </a>
             </div>
           )}
 
           {filteredPosts.length === 0 ? (
             <div className="text-center py-16">
               <BookOpen className="w-14 h-14 mx-auto text-gray-400 mb-3" />
-              <p className="text-gray-500 text-lg">No posts found. Try another search or filter.</p>
+              <p className="text-gray-500 text-lg">
+                No posts found. Try another search or filter.
+              </p>
             </div>
           ) : (
-            <div className={`grid gap-10 ${expandedPost ? "grid-cols-1 place-items-center" : "sm:grid-cols-2 lg:grid-cols-3"}`}>
+            <div
+              className={`grid gap-10 ${
+                expandedPost
+                  ? "grid-cols-1 place-items-center"
+                  : "sm:grid-cols-2 lg:grid-cols-3"
+              }`}
+            >
               {filteredPosts.map((post) => {
                 const Icon = categoryIcons[post.category];
                 const isExpanded = expandedPost === post.id;
@@ -167,16 +197,49 @@ useEffect(() => {
                         <div className="p-2 rounded-full bg-green-100 text-green-600">
                           <Icon className="w-5 h-5" />
                         </div>
-                        <span className="text-sm font-medium text-blue-600">{post.category}</span>
+                        <span className="text-sm font-medium text-blue-600">
+                          {post.category}
+                        </span>
                       </div>
 
                       <h2 className="font-bold text-xl sm:text-2xl md:text-3xl mb-4 text-gray-800 leading-snug break-words">
                         {post.title}
                       </h2>
 
-                      <p className="text-gray-600 text-base sm:text-lg md:text-lg text-justify break-words">
-                        {expandedPost ? post.content : `${post.content.slice(0, 100)}...`}
-                      </p>
+                      <div className="text-gray-600 text-base sm:text-lg md:text-lg text-justify break-words">
+                        {expandedPost
+                          ? post.content.split("\n").map((line, index) => {
+                              // Heading detection (I., II., etc.)
+                              if (/^[IVXLCDM]+\./.test(line.trim())) {
+                                return (
+                                  <h2
+                                    key={index}
+                                    className="font-bold text-xl sm:text-2xl md:text-3xl mt-4 mb-2"
+                                  >
+                                    {line.trim()}
+                                  </h2>
+                                );
+                              }
+                              // Numbered list detection (1., 2., etc.)
+                              if (/^\d+\./.test(line.trim())) {
+                                return (
+                                  <p
+                                    key={index}
+                                    className="mb-2 ml-4 list-inside list-decimal"
+                                  >
+                                    {line.trim()}
+                                  </p>
+                                );
+                              }
+                              // Normal paragraph
+                              return (
+                                <p key={index} className="mb-4">
+                                  {line.trim()}
+                                </p>
+                              );
+                            })
+                          : `${post.content.slice(0, 100)}...`}
+                      </div>
 
                       {!expandedPost && (
                         <button
@@ -189,11 +252,11 @@ useEffect(() => {
                     </div>
 
                     <div className="flex justify-between items-center mt-6 text-sm sm:text-base text-gray-500 flex-wrap gap-2">
-                      <span className="italic">{post.author}</span>
+                      <span className="text-gray-500 text-sm italic">By {post.author}</span>
                       <span className="flex items-center gap-1">
                         <Calendar className="w-4 h-4 text-blue-500" />
                         {new Date(post.createdAt).toLocaleDateString()}
-                      </span>
+                      </span> 
                     </div>
                   </div>
                 );

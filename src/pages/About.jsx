@@ -1,9 +1,14 @@
 import React from "react";
-import { Calendar, Award } from "lucide-react";
-import principalImage from "../assets/principal.jpg";
+import { Calendar, Award, Lightbulb } from "lucide-react";
 import Footer from "../component/Footer";
 import Navbar from "../component/Navbar";
 import Message from "../component/Message";
+
+const initiatives = [
+  "Best Classroom of the Week",
+  "Students as a Professor",
+  "Students of the Month",
+];
 
 const achievements = [
   "Best School Award 2023 - State Education Board",
@@ -19,23 +24,23 @@ const staff = [
     position: "ChairMan",
     qualification: "Ph.D. in Educational Leadership",
     experience: "20+ years",
-    image: principalImage,
+    image: "https://i.imgur.com/kh6BEPT.jpeg",
   },
   {
-    name: "Prof. Michael Chen",
-    position: "Vice Principal",
+    name: "Rajesh Bhandari",
+    position: " Principal",
     qualification: "M.Ed. in Curriculum Development",
     experience: "15+ years",
   },
   {
-    name: "Ms. Emily Davis",
-    position: "Academic Director",
+    name: "Sanjay Dahal",
+    position: "Managing Director",
     qualification: "M.A. in Education Management",
     experience: "12+ years",
   },
   {
-    name: "Mr. Robert Wilson",
-    position: "Sports Director",
+    name: "Ramakant Subedi",
+    position: "Financial Director",
     qualification: "M.P.Ed. in Sports Science",
     experience: "10+ years",
   },
@@ -109,12 +114,13 @@ const About = () => {
                 with the knowledge, skills, and values needed to succeed in an
                 ever-changing world
               </p>
-              <p className="text-justify leading-relaxed">As we embark on the next phase of our journey, Bhagawati
-              English Secondary School remains steadfast in its mission to
-              empower and inspire the leaders of tomorrow. We invite you to join
-              us in this noble pursuit as we continue to uphold the highest
-              standards of education and shape the future of Nepal, one student
-              at a time.
+              <p className="text-justify leading-relaxed">
+                As we embark on the next phase of our journey, Bhagawati English
+                Secondary School remains steadfast in its mission to empower and
+                inspire the leaders of tomorrow. We invite you to join us in
+                this noble pursuit as we continue to uphold the highest
+                standards of education and shape the future of Nepal, one
+                student at a time.
               </p>
             </div>
           </section>
@@ -183,6 +189,31 @@ const About = () => {
                   <Award className="h-5 w-5 text-yellow-600" />
                   <span className="text-gray-700 font-medium">
                     {achievement}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="mb-8 bg-white rounded-2xl shadow-md overflow-hidden">
+            {/* Header */}
+            <div className="p-6 border-b border-gray-200 bg-blue-50">
+              <h2 className="text-3xl text-center font-bold flex justify-center items-center gap-3 text-blue-800">
+                <Lightbulb className="h-7 w-7" />
+                Our Initiatives
+              </h2>
+            </div>
+
+            {/* Initiatives Grid */}
+            <div className="p-6 grid md:grid-cols-2 gap-5">
+              {initiatives.map((initiative, index) => (
+                <div
+                  key={index}
+                  className="flex items-center space-x-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg"
+                >
+                  <Award className="h-5 w-5 text-yellow-600" />
+                  <span className="text-gray-700 font-medium">
+                    {initiative}
                   </span>
                 </div>
               ))}

@@ -1,5 +1,4 @@
 import React from "react";
-import classroomImage from "../assets/classroom.jpg";
 import { BookOpen, Award, Microscope } from "lucide-react";
 import Footer from "../component/Footer";
 import Navbar from "../component/Navbar";
@@ -127,9 +126,10 @@ const Academics = () => {
           <section className="mb-16">
             <div className="relative rounded-2xl overflow-hidden h-[32rem] md:h-[40rem] shadow-lg">
               <img
-                src={classroomImage}
+                src='https://i.imgur.com/TjTmbBc.jpeg'
                 alt="Modern Classroom"
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                 <div className="text-center text-white">

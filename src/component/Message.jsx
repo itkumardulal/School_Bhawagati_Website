@@ -1,5 +1,4 @@
 import React from 'react'
-import principalImage from "../assets/principal.jpg";
 
 const Message = () => {
   return (
@@ -16,8 +15,8 @@ const Message = () => {
                   <div className="md:w-1/3 text-center">
                     <div className="w-48 h-48 rounded-full overflow-hidden bg-gray-100 mx-auto shadow-lg border-4 border-blue-100">
                       <img
-                        src={principalImage}
-                        alt="Dr. Sarah Johnson"
+                        src='https://i.imgur.com/kh6BEPT.jpeg'
+                        alt="Krishna Kumar Upreti"
                         className="w-full h-full object-cover"
                       />
                     </div>

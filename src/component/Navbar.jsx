@@ -17,7 +17,8 @@ const Navbar = () => {
     { name: "Admissions", path: "/admissions" },
     { name: "Gallery", path: "/gallery" },
     { name: "Contact", path: "/contact" },
-    { name: "Clubs", path: "/club" }
+    { name: "Clubs", path: "/club" },
+    //  { name: "Blog", path: "/blogs" }
   ];
 
   const feedItems = [

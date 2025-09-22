@@ -1,9 +1,5 @@
 import { useState } from "react";
 import { Calendar, Users, Trophy, BookOpen, Camera, X } from "lucide-react";
-
-import scienceFairImage from "../assets/science.jpg";
-import classroomImage from "../assets/computer.jpg";
-import heroImage from "../assets/hero-school.jpg";
 import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
 
@@ -17,35 +13,35 @@ const Gallery = () => {
       name: "School Events",
       icon: Calendar,
       description: "Various school events and celebrations",
-      coverImage: scienceFairImage,
+      coverImage:'https://i.imgur.com/7n6zVdM.png',
     },
     {
       id: "academic",
       name: "Academic Activities",
       icon: BookOpen,
       description: "Classroom activities and educational programs",
-      coverImage: classroomImage,
+      coverImage: 'https://i.imgur.com/7zTHT2Z.jpeg',
     },
     {
       id: "sports",
       name: "Sports & Recreation",
       icon: Trophy,
       description: "Sports events and recreational activities",
-      coverImage: heroImage,
+      coverImage: 'https://i.imgur.com/fn03GSq.png',
     },
     {
       id: "infrastructure",
       name: "Campus & Infrastructure",
       icon: Users,
       description: "School buildings and facilities",
-      coverImage: heroImage,
+      coverImage: 'https://i.imgur.com/AYkr7dC.png',
     },
   ];
 
   const images = [
     {
       id: 1,
-      src: scienceFairImage,
+      src: "https://i.imgur.com/1D3sHho.jpeg",
       title: "Annual Science Fair 2024",
       description: "Students presenting their innovative science projects",
       category: "events",
@@ -54,7 +50,7 @@ const Gallery = () => {
     },
     {
       id: 2,
-      src: classroomImage,
+      src: 'https://i.imgur.com/7zTHT2Z.jpeg',
       title: "Interactive Learning Session",
       description: "Students engaged in active learning in modern classroom",
       category: "academic",
@@ -63,7 +59,7 @@ const Gallery = () => {
     },
     {
       id: 3,
-      src: heroImage,
+      src: 'https://i.imgur.com/AYkr7dC.png',
       title: "School Campus Overview",
       description: "Beautiful view of our modern school campus",
       category: "infrastructure",
@@ -72,7 +68,7 @@ const Gallery = () => {
     },
     {
       id: 4,
-      src: scienceFairImage,
+      src: 'https://i.imgur.com/1D3sHho.jpeg',
       title: "Chemistry Lab Experiment",
       description:
         "Students conducting experiments in the chemistry laboratory",
@@ -82,7 +78,7 @@ const Gallery = () => {
     },
     {
       id: 5,
-      src: heroImage,
+      src: 'https://i.imgur.com/fn03GSq.png',
       title: "Sports Day Celebration",
       description: "Annual sports day with various athletic competitions",
       category: "sports",
@@ -91,7 +87,7 @@ const Gallery = () => {
     },
     {
       id: 6,
-      src: classroomImage,
+      src: 'https://i.imgur.com/7zTHT2Z.jpeg',
       title: "Computer Programming Class",
       description: "Students learning programming in our computer lab",
       category: "academic",
@@ -100,7 +96,7 @@ const Gallery = () => {
     },
     {
       id: 7,
-      src: scienceFairImage,
+      src:'https://i.imgur.com/7n6zVdM.png',
       title: "Cultural Festival Performance",
       description: "Students performing in the annual cultural festival",
       category: "events",
@@ -109,7 +105,7 @@ const Gallery = () => {
     },
     {
       id: 8,
-      src: heroImage,
+      src: 'https://i.imgur.com/7zTHT2Z.jpeg',
       title: "Library Reading Session",
       description: "Students enjoying reading in our well-equipped library",
       category: "infrastructure",
@@ -118,7 +114,7 @@ const Gallery = () => {
     },
     {
       id: 9,
-      src: classroomImage,
+      src: 'https://i.imgur.com/ZDpgTql.png',
       title: "Art & Craft Workshop",
       description: "Creative art and craft session with young artists",
       category: "events",
