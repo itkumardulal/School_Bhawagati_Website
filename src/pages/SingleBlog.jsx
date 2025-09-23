@@ -11,21 +11,20 @@ const SingleBlog = () => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  const fetchBlog = async () => {
-    try {
-      const cleanId = id.trim(); 
-      const res = await API.get(`/blogs/spa/${cleanId}`);
-      setBlog(res.data.data);
-    } catch (err) {
-      console.error("Failed to fetch blog", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchBlog();
-}, [id]);
-
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const cleanId = id.trim();
+        const res = await API.get(`/blogs/spa/${cleanId}`);
+        setBlog(res.data.data);
+      } catch (err) {
+        console.error("Failed to fetch blog", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlog();
+  }, [id]);
 
   if (loading) return <Loader />;
   if (!blog) return <p className="text-center py-16">Blog not found</p>;
@@ -43,6 +42,7 @@ useEffect(() => {
           </Link>
 
           {/* Facebook Share */}
+
           <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
               `${window.location.origin}/blogs/share/${blog.id}`
@@ -51,7 +51,7 @@ useEffect(() => {
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[9px] text-sm sm:text-base shadow transition"
           >
-            <Share2 className="w-5 h-5" /> Share on Facebook
+            Share on Facebook
           </a>
         </div>
 
