@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import Notice from './pages/Notice';
 import Blog from './pages/Blog';
 import Clubs from './pages/Club';
+import SingleBlog from './pages/SingleBlog';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/news' element={<NewsSection/>} />
         <Route path = '/notices' element = {<Notice/>} />
         <Route path = '/blogs' element = {<Blog/>} />
+         <Route path="/blogs/:id" element={<SingleBlog />} />
         <Route path = '/club' element = {<Clubs/>} />
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
