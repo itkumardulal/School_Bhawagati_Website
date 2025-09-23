@@ -11,19 +11,21 @@ const SingleBlog = () => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const res = await API.get(`/blogs/${id}`);
-        setBlog(res.data.data);
-      } catch (err) {
-        console.error("Failed to fetch blog", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBlog();
-  }, [id]);
+useEffect(() => {
+  const fetchBlog = async () => {
+    try {
+      const cleanId = id.trim(); 
+      const res = await API.get(`/blogs/spa/${cleanId}`);
+      setBlog(res.data.data);
+    } catch (err) {
+      console.error("Failed to fetch blog", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchBlog();
+}, [id]);
+
 
   if (loading) return <Loader />;
   if (!blog) return <p className="text-center py-16">Blog not found</p>;
