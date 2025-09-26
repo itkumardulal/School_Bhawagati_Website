@@ -4,29 +4,62 @@ import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
 import API from "../component/http";
 import Loader from "../component/Loader/Loader";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewsSection = () => {
   const [newsList, setNewsList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [selectedNews, setSelectedNews] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [totalItems, setTotalItems] = useState(0);
   const currentDomain = window.location.hostname;
-  useEffect(() => {
-    const fetchNews = async () => {
+  const fetchNews = async (showLoader = true, page = 1, append = false) => {
+    if (showLoader) {
       setLoading(true);
-      try {
-        const response = await API.get("/news");
-        if (response.status === 200) {
-          setNewsList(response.data.data);
-        }
-      } catch (error) {
-        if (process.env.NODE_ENV === "development") {
-          console.error("Failed to fetch news:", error);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+    } else if (append) {
+      setLoadingMore(true);
+    }
 
+    try {
+      const response = await API.get(`/news?page=${page}&limit=6`);
+      if (response.status === 200) {
+        const fetchedNews = response.data.data || [];
+        const pagination = response.data.pagination || {};
+
+        // Update pagination state
+        setCurrentPage(pagination.currentPage || page);
+        setHasNextPage(pagination.hasNextPage || false);
+        setTotalItems(pagination.totalItems || 0);
+
+        if (append) {
+          // Append new news to existing ones
+          setNewsList((prevNews) => [...prevNews, ...fetchedNews]);
+        } else {
+          // Replace news (initial load)
+          setNewsList(fetchedNews);
+        }
+      }
+    } catch (error) {
+      toast.error("Failed to fetch news");
+    } finally {
+      if (showLoader) {
+        setLoading(false);
+      } else if (append) {
+        setLoadingMore(false);
+      }
+    }
+  };
+
+  const loadMoreNews = async () => {
+    if (hasNextPage && !loadingMore) {
+      await fetchNews(false, currentPage + 1, true);
+    }
+  };
+
+  useEffect(() => {
     fetchNews();
   }, [currentDomain]);
 
@@ -65,28 +98,27 @@ const NewsSection = () => {
                     key={news.id}
                     className="bg-white rounded-2xl shadow-md border border-gray-200 flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300"
                   >
-                    <div className="overflow-hidden group">
-                      <div className="w-full h-48 sm:h-56 md:h-60 lg:h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
-                        {news.imgUrl ? (
+                    {news.imgUrl && (
+                      <div className="overflow-hidden group">
+                        <div className="w-full h-48 sm:h-56 md:h-60 lg:h-64 overflow-hidden bg-gray-100 flex items-center justify-center">
                           <img
                             src={news.imgUrl}
                             alt={news.title}
                             className="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-105"
                           />
-                        ) : (
-                          <span className="text-gray-500 text-base text-center">
-                            No image to uploaded for this news
-                          </span>
-                        )}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <div className="p-5 flex-1 flex flex-col justify-between">
                       <div>
                         <h3 className="text-2xl font-semibold text-gray-900 line-clamp-2">
                           {news.title}
                         </h3>
-                       <p className="text-gray-600 text-base mt-2 line-clamp-1 text-justify leading-relaxed"> {news.description} </p>
+                        <p className="text-gray-600 text-base mt-2 line-clamp-1 text-justify leading-relaxed">
+                          {" "}
+                          {news.description}{" "}
+                        </p>
                         <p className="text-sm text-gray-500 mt-1">
                           Published:{" "}
                           {new Date(news.createdAt).toLocaleDateString()}
@@ -106,6 +138,39 @@ const NewsSection = () => {
                 ))}
               </div>
             )}
+
+            {/* Load More Button */}
+            {newsList.length > 0 && hasNextPage && (
+              <div className="flex justify-center mt-8 mb-8">
+                <button
+                  onClick={loadMoreNews}
+                  disabled={loadingMore}
+                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed"
+                >
+                  {loadingMore ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      Loading More...
+                    </>
+                  ) : (
+                    <>
+                      <span>Load More</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+
+            {/* No more news message */}
+            {newsList.length > 0 &&
+              !hasNextPage &&
+              newsList.length < totalItems && (
+                <div className="text-center mt-8 mb-8">
+                  <p className="text-gray-500 text-sm">
+                    Showing all {newsList.length} of {totalItems} news
+                  </p>
+                </div>
+              )}
           </>
         ) : (
           // Expanded news view
@@ -122,19 +187,15 @@ const NewsSection = () => {
               {selectedNews.title}
             </h2>
 
-            <div className="border border-gray-300 rounded-xl p-6 bg-white flex justify-center items-center min-h-[200px] shadow-sm">
-              {selectedNews.imgUrl ? (
+            {selectedNews.imgUrl && (
+              <div className="border border-gray-300 rounded-xl p-6 bg-white flex justify-center items-center min-h-[200px] shadow-sm">
                 <img
                   src={selectedNews.imgUrl}
                   alt={selectedNews.title}
                   className="max-w-full h-auto sm:max-h-[500px] rounded-md"
                 />
-              ) : (
-                <p className="text-gray-500 italic">
-                  No image uploaded for this news.
-                </p>
-              )}
-            </div>
+              </div>
+            )}
 
             <p className="text-xl text-gray-700 leading-relaxed whitespace-pre-line text-justify">
               {selectedNews.description}

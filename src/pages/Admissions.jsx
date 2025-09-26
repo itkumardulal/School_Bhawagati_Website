@@ -10,7 +10,7 @@ import {
 import Footer from "../component/Footer";
 import Navbar from "../component/Navbar";
 import API from "../component/http";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const admissionProcess = [
@@ -238,7 +238,7 @@ const Admissions = () => {
     e.preventDefault();
     try {
       const hostname = window.location.hostname;
-    const domain = hostname.replace(/^www\./, '');
+      const domain = hostname.replace(/^www\./, "");
 
       await API.post("/admission", {
         ...formData,
@@ -260,7 +260,6 @@ const Admissions = () => {
         additionalInformation: "",
       });
     } catch (error) {
-      console.error("Error submitting admission:", error);
       toast.error(
         error.response?.data?.message || "Submission failed. Please try again."
       );
@@ -271,6 +270,7 @@ const Admissions = () => {
     <>
       <Navbar />
       <div className="min-h-screen py-6 bg-gray-50">
+        <ToastContainer position="top-right" autoClose={3000} />
         <div className="container mx-auto px-6 sm:px-8 lg:px-12">
           {/* Header */}
           <div className="text-center mb-12 max-w-4xl mx-auto px-4">

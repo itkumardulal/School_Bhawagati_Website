@@ -18,13 +18,60 @@ const SingleBlog = () => {
         const res = await API.get(`/blogs/spa/${cleanId}`);
         setBlog(res.data.data);
       } catch (err) {
-        console.error("Failed to fetch blog", err);
+        setError("Failed to fetch blog");
       } finally {
         setLoading(false);
       }
     };
     fetchBlog();
   }, [id]);
+
+  // Update meta tags when blog data is loaded
+  useEffect(() => {
+    if (blog) {
+      // Extract first image from content
+      const imgMatch = blog.content.match(/<img[^>]+src="([^"]+)"/);
+      const firstImage = imgMatch ? imgMatch[1] : "";
+
+      // Create description (first 150 characters of content without HTML)
+      const contentText = blog.content.replace(/<[^>]*>/g, "").trim();
+      const description =
+        contentText.length > 150
+          ? contentText.substring(0, 150) + "..."
+          : contentText;
+
+      // Set static browser tab title
+      document.title = "Bhagawati Secondary School";
+
+      // Create or update Open Graph meta tags for Facebook sharing
+      const updateOrCreateMetaTag = (property, content) => {
+        let metaTag = document.querySelector(`meta[property="${property}"]`);
+        if (!metaTag) {
+          metaTag = document.createElement("meta");
+          metaTag.setAttribute("property", property);
+          document.head.appendChild(metaTag);
+        }
+        metaTag.setAttribute("content", content);
+      };
+
+      // Update Open Graph meta tags
+      updateOrCreateMetaTag("og:title", blog.title);
+      updateOrCreateMetaTag("og:description", description);
+      updateOrCreateMetaTag("og:url", window.location.href);
+      updateOrCreateMetaTag("og:type", "article");
+      updateOrCreateMetaTag("og:site_name", "Bhagawati Secondary School");
+
+      if (firstImage) {
+        updateOrCreateMetaTag("og:image", firstImage);
+        updateOrCreateMetaTag("og:image:width", "1200");
+        updateOrCreateMetaTag("og:image:height", "630");
+      }
+
+      // Add article meta tags
+      updateOrCreateMetaTag("article:author", blog.author);
+      updateOrCreateMetaTag("article:published_time", blog.createdAt);
+    }
+  }, [blog]);
 
   if (loading) return <Loader />;
   if (!blog) return <p className="text-center py-16">Blog not found</p>;
@@ -42,15 +89,15 @@ const SingleBlog = () => {
           </Link>
 
           {/* Facebook Share */}
-
           <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-              `${window.location.origin}/blogs/share/${blog.id}`
+              window.location.href
             )}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[9px] text-sm sm:text-base shadow transition"
           >
+            <Share2 className="w-4 h-4" />
             Share on Facebook
           </a>
         </div>
@@ -60,22 +107,19 @@ const SingleBlog = () => {
           {blog.title}
         </h1>
 
+        {/* Blog Content */}
+        <div
+          className="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed prose prose-lg max-w-none"
+          dangerouslySetInnerHTML={{ __html: blog.content }}
+        />
+
         {/* Author & Date */}
-        <div className="flex justify-between items-center mb-6 text-sm sm:text-base text-gray-500 flex-wrap gap-2">
+        <div className="flex justify-between items-center mt-6 text-sm sm:text-base text-gray-500 flex-wrap gap-2">
           <span>By {blog.author}</span>
           <span className="flex items-center gap-1">
             <Calendar className="w-4 h-4 text-blue-500" />
             {new Date(blog.createdAt).toLocaleDateString()}
           </span>
-        </div>
-
-        {/* Blog Content */}
-        <div className="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed text-justify">
-          {blog.content.split("\n").map((line, i) => (
-            <p key={i} className="mb-4">
-              {line.trim()}
-            </p>
-          ))}
         </div>
       </div>
       <Footer />

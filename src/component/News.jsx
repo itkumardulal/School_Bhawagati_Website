@@ -3,6 +3,8 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import API from "./http";
 import Loader from "./Loader/Loader";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewsSection = () => {
   const navigate = useNavigate();
@@ -12,18 +14,16 @@ const NewsSection = () => {
 
   const currentDomain = window.location.hostname;
 
-  // Fetch news from API 
+  // Fetch news from API
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const res = await API.get("/news");
-        const allNews = res.data.data || [] 
+        const allNews = res.data.data || [];
 
-        setNewsList(allNews.slice(0,2));
+        setNewsList(allNews.slice(0, 2));
       } catch (error) {
-        if (process.env.NODE_ENV === "development") {
-          console.error("Failed to fetch news:", error);
-        }
+        toast.error("Failed to fetch news");
       } finally {
         setLoading(false);
       }
@@ -63,21 +63,17 @@ const NewsSection = () => {
                     key={news.id}
                     className="bg-white rounded-2xl shadow-md border border-gray-200 flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300"
                   >
-                    <div className="overflow-hidden group">
-                      <div className="w-full h-48 sm:h-56 md:h-60 lg:h-64 overflow-hidden flex items-center justify-center bg-gray-100">
-                        {news.imgUrl ? (
+                    {news.imgUrl && (
+                      <div className="overflow-hidden group">
+                        <div className="w-full h-48 sm:h-56 md:h-60 lg:h-64 overflow-hidden flex items-center justify-center bg-gray-100">
                           <img
                             src={news.imgUrl}
                             alt={news.title}
                             className="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-105"
                           />
-                        ) : (
-                          <span className="text-gray-500 text-base">
-                            No image to preview
-                          </span>
-                        )}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <div className="p-5 flex-1 flex flex-col justify-between">
                       <div>
@@ -132,19 +128,15 @@ const NewsSection = () => {
               {selectedNews.title}
             </h2>
 
-            <div className="border border-gray-300 rounded-xl p-6 bg-white flex justify-center items-center min-h-[200px] shadow-sm">
-              {selectedNews.imgUrl ? (
+            {selectedNews.imgUrl && (
+              <div className="border border-gray-300 rounded-xl p-6 bg-white flex justify-center items-center min-h-[200px] shadow-sm">
                 <img
                   src={selectedNews.imgUrl}
                   alt={selectedNews.title}
                   className="max-w-full h-auto sm:max-h-[500px] rounded-md"
                 />
-              ) : (
-                <p className="text-gray-500 italic ">
-                  No image uploaded for this news.
-                </p>
-              )}
-            </div>
+              </div>
+            )}
 
             <p className="text-base text-gray-700 leading-relaxed whitespace-pre-line text-justify">
               {selectedNews.description}

@@ -25,7 +25,7 @@ const Contact = () => {
     e.preventDefault();
     try {
       const hostname = window.location.hostname;
-     const domain = hostname.replace(/^www\./, '');
+      const domain = hostname.replace(/^www\./, "");
 
       await API.post("/message", {
         firstName: formData.firstName,
@@ -46,7 +46,6 @@ const Contact = () => {
         message: "",
       });
     } catch (error) {
-      console.error("Error submitting message:", error);
       toast.error(
         error.response?.data?.message || "Submission failed. Please try again."
       );
