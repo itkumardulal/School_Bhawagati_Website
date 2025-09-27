@@ -54,7 +54,7 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4">
           {/* Page Header */}
           <div className="text-center mb-16">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-900 mb-4 drop-shadow-sm">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-900 mb-4 drop-shadow-sm font-heading">
               About Bhagawati School
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
@@ -65,7 +65,7 @@ const About = () => {
           {/* History */}
           <section className="mb-20 bg-white rounded-3xl shadow-xl overflow-hidden px-6 md:px-12 py-10 max-w-6xl mx-auto">
             <div className="pb-6 border-b border-gray-200 bg-blue-50 rounded-t-3xl px-4 sm:px-6 text-center pt-4">
-              <h2 className="text-4xl font-bold flex justify-center items-center gap-4 text-blue-800">
+              <h2 className="text-4xl font-bold flex justify-center items-center gap-4 text-blue-800 font-heading">
                 <Calendar className="h-8 w-8" />
                 Our History
               </h2>

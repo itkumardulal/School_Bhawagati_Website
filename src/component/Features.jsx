@@ -15,11 +15,16 @@ const Features = () => {
               body: "At Bhagawati English Secondary School, we envision a future where every student emerges as a confident and compassionate leader, equipped with the tools and mindset to thrive in a rapidly changing world. Through innovative education and holistic development, we aim to cultivate a community of lifelong learners who are empowered to shape a brighter tomorrow, contributing positively to their communities and making a lasting impact on the world around them.",
             },
           ].map((f, i) => (
-            <div key={i} className="rounded-lg border border-slate-100 bg-white p-6 shadow">
-              <h2 className="mb-4 text-3xl text-center  font-semibold text-blue-950">
+            <div
+              key={i}
+              className="rounded-lg border border-slate-100 bg-white p-6 shadow"
+            >
+              <h2 className="mb-4 text-3xl text-center  font-semibold text-blue-950 font-heading">
                 {f.title}
               </h2>
-              <p className="text-gray-600 text-xl text-justify leading-relaxed">{f.body}</p>
+              <p className="text-gray-600 text-xl text-justify leading-relaxed font-body">
+                {f.body}
+              </p>
             </div>
           ))}
         </div>

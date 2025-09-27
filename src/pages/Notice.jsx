@@ -98,7 +98,7 @@ function Notice() {
         {!selectedNotice ? (
           <>
             <div className="mb-10 text-center">
-              <h1 className="text-4xl font-bold text-blue-800 mb-2">
+              <h1 className="text-4xl font-bold text-blue-800 mb-2 font-heading">
                 Notice Board
               </h1>
               <p className="text-xl mt-2 text-gray-600">

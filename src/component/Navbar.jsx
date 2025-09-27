@@ -55,12 +55,12 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden xl:flex items-center space-x-8">
+          <div className="hidden xl:flex items-center space-x-8 font-semibold">
             {navigationItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`text-lg font-medium transition-colors hover:text-yellow-600 ${
+                className={`text-lg font-medium transition-colors hover:text-yellow-600 font-body ${
                   isActive(item.path)
                     ? "text-yellow-600 border-b-2 border-yellow-600"
                     : "text-gray-500"
@@ -74,7 +74,7 @@ const Navbar = () => {
             <div className="relative" ref={feedRef}>
               <button
                 onClick={() => setDesktopFeedOpen(!desktopFeedOpen)}
-                className={`flex items-center text-lg font-medium transition-colors hover:text-yellow-600 ${
+                className={`flex items-center text-lg font-medium transition-colors hover:text-yellow-600 font-body ${
                   feedItems.some((f) => isActive(f.path))
                     ? "text-yellow-600 border-b-2 border-yellow-600"
                     : "text-gray-500"
@@ -90,7 +90,7 @@ const Navbar = () => {
                       key={item.path}
                       to={item.path}
                       onClick={() => setDesktopFeedOpen(false)}
-                      className={`block px-4 py-2 text-base font-medium hover:bg-gray-100  hover:text-yellow-500 transition ${
+                      className={`block px-4 py-2 text-base font-medium hover:bg-gray-100  hover:text-yellow-500 transition font-body ${
                         isActive(item.path)
                           ? "text-yellow-600"
                           : "text-gray-600"
@@ -105,7 +105,7 @@ const Navbar = () => {
 
             <Link
               to="/admissions"
-              className="ml-2 mr-2 px-3 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition text-lg"
+              className="ml-2 mr-2 px-3 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition text-lg font-button"
             >
               Apply Now
             </Link>
@@ -131,7 +131,7 @@ const Navbar = () => {
                 key={item.path}
                 to={item.path}
                 onClick={() => setIsOpen(false)}
-                className={`text-base font-medium transition-colors hover:text-yellow-600 ${
+                className={`text-base font-medium transition-colors hover:text-yellow-600 font-body ${
                   isActive(item.path) ? "text-yellow-600" : "text-gray-600"
                 }`}
               >
@@ -143,7 +143,7 @@ const Navbar = () => {
             <div>
               <button
                 onClick={() => setMobileFeedOpen(!mobileFeedOpen)}
-                className="flex items-center justify-between w-full text-base font-medium text-gray-600 hover:text-yellow-600"
+                className="flex items-center justify-between w-full text-base font-medium text-gray-600 hover:text-yellow-600 font-body   "
               >
                 Feed <ChevronDown className="h-4 w-4" />
               </button>
@@ -157,7 +157,7 @@ const Navbar = () => {
                         setIsOpen(false);
                         setMobileFeedOpen(false);
                       }}
-                      className={`text-base font-medium transition-colors hover:text-yellow-600 ${
+                      className={`text-base font-medium transition-colors hover:text-yellow-600 font-body ${
                         isActive(item.path)
                           ? "text-yellow-600"
                           : "text-gray-600"
@@ -173,7 +173,7 @@ const Navbar = () => {
             <Link
               to="/admissions"
               onClick={() => setIsOpen(false)}
-              className="mt-4 w-full text-center px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition"
+              className="mt-4 w-full text-center px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition font-button"
             >
               Apply Now
             </Link>

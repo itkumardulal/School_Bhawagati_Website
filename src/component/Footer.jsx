@@ -25,7 +25,10 @@ const programs = [
 ];
 
 const contactInfo = [
-  { icon: MapPin, text: "Kamalamai Municipality-06, 02-Bazar, Sindhuli, Nepal" },
+  {
+    icon: MapPin,
+    text: "Kamalamai Municipality-06, 02-Bazar, Sindhuli, Nepal",
+  },
   { icon: Phone, text: "   +977-047-520179 ,+977-985-4044140 " },
   { icon: Mail, text: " bhagawati.hses@gmail.com , info@bhagawatishool.com" },
 ];
@@ -40,10 +43,12 @@ const Footer = () => {
         <div className="space-y-4 text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start space-x-2">
             <GraduationCap className="h-9 w-9" />
-            <span className="text-2xl font-bold">Bhagawati School</span>
+            <span className="text-2xl font-bold font-heading">
+              Bhagawati School
+            </span>
           </div>
-          <p className="text-lg text-blue-200">
-           A blend of Culture and Quality education
+          <p className="text-lg text-blue-200 font-body">
+            A blend of Culture and Quality education
           </p>
           <div className="flex justify-center md:justify-start space-x-3">
             {socialIcons.map((Icon, idx) => (
@@ -57,7 +62,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div className="space-y-4 text-center md:text-left">
-          <h3 className="text-2xl font-semibold">Quick Links</h3>
+          <h3 className="text-2xl font-semibold font-heading">Quick Links</h3>
           <div className="space-y-2">
             {quickLinks.map(({ name, to }) => (
               <Link
@@ -73,7 +78,7 @@ const Footer = () => {
 
         {/* Programs */}
         <div className="space-y-4 text-center md:text-left">
-          <h3 className="text-2xl font-semibold">Programs</h3>
+          <h3 className="text-2xl font-semibold font-heading">Programs</h3>
           <div className="space-y-2">
             {programs.map((program, idx) => (
               <p key={idx} className="text-lg text-blue-200">
@@ -85,7 +90,7 @@ const Footer = () => {
 
         {/* Contact Info */}
         <div className="space-y-4 text-center md:text-left">
-          <h3 className="text-2xl font-semibold">Contact Info</h3>
+          <h3 className="text-2xl font-semibold font-heading">Contact Info</h3>
           <div className="space-y-3">
             {contactInfo.map(({ icon: Icon, text }, idx) => (
               <div

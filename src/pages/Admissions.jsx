@@ -12,6 +12,11 @@ import Navbar from "../component/Navbar";
 import API from "../component/http";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  validateForm,
+  validationRules,
+  sanitizeInput,
+} from "../utils/validation";
 
 const admissionProcess = [
   {
@@ -228,41 +233,92 @@ const Admissions = () => {
     previousSchool: "",
     additionalInformation: "",
   });
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+
+    // Special handling for phone number - only allow numbers
+    if (id === "phoneNumber") {
+      const numbersOnly = value.replace(/[^0-9]/g, "");
+      setFormData((prev) => ({ ...prev, [id]: numbersOnly }));
+    } else {
+      const sanitizedValue = sanitizeInput(value);
+      setFormData((prev) => ({ ...prev, [id]: sanitizedValue }));
+    }
+
+    // Clear error when user starts typing
+    if (errors[id]) {
+      setErrors({ ...errors, [id]: "" });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate form
+    const admissionRules = {
+      fullName: validationRules.fullName,
+      gradeApplyingFor: validationRules.gradeApplyingFor,
+      dob: {
+        label: "Date of Birth",
+        required: true,
+        validator: (value) => value && value.trim().length > 0,
+        message: "Please select your date of birth",
+      },
+      gender: {
+        label: "Gender",
+        required: true,
+        validator: (value) => value && value.trim().length > 0,
+        message: "Please select your gender",
+      },
+      guardianName: validationRules.guardianName,
+      phoneNumber: validationRules.phoneNumber,
+      emailAddress: validationRules.email,
+      Address: validationRules.address,
+    };
+
+    const validation = validateForm(formData, admissionRules);
+    if (!validation.isValid) {
+      setErrors(validation.errors);
+      toast.error("Please fix the errors before submitting");
+      return;
+    }
+
+    setLoading(true);
+    setErrors({});
+
     try {
       const hostname = window.location.hostname;
       const domain = hostname.replace(/^www\./, "");
 
-      await API.post("/admission", {
+      const response = await API.post("/admission", {
         ...formData,
         schoolDomain: domain,
       });
 
-      toast.success("Admission form submitted successfully!");
-
-      setFormData({
-        fullName: "",
-        gradeApplyingFor: "",
-        dob: "",
-        gender: "",
-        guardianName: "",
-        phoneNumber: "",
-        emailAddress: "",
-        Address: "",
-        previousSchool: "",
-        additionalInformation: "",
-      });
+      if (response.status === 201) {
+        toast.success("Admission form submitted successfully!");
+        setFormData({
+          fullName: "",
+          gradeApplyingFor: "",
+          dob: "",
+          gender: "",
+          guardianName: "",
+          phoneNumber: "",
+          emailAddress: "",
+          Address: "",
+          previousSchool: "",
+          additionalInformation: "",
+        });
+      }
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Submission failed. Please try again."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -274,7 +330,7 @@ const Admissions = () => {
         <div className="container mx-auto px-6 sm:px-8 lg:px-12">
           {/* Header */}
           <div className="text-center mb-12 max-w-4xl mx-auto px-4">
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-900 mb-4 leading-tight">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-900 mb-4 leading-tight font-heading">
               Admissions 2024-25
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
@@ -409,7 +465,13 @@ const Admissions = () => {
                         id="fullName"
                         value={formData.fullName}
                         onChange={handleChange}
+                        className={errors.fullName ? "border-red-500" : ""}
                       />
+                      {errors.fullName && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.fullName}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="gradeApplyingFor">
@@ -419,6 +481,9 @@ const Admissions = () => {
                         id="gradeApplyingFor"
                         value={formData.gradeApplyingFor}
                         onChange={handleChange}
+                        className={
+                          errors.gradeApplyingFor ? "border-red-500" : ""
+                        }
                       >
                         <option value="">Select Grade</option>
                         {[
@@ -439,15 +504,26 @@ const Admissions = () => {
                           </option>
                         ))}
                       </Select>
+                      {errors.gradeApplyingFor && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.gradeApplyingFor}
+                        </p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="dob">Date of Birth </Label>
+                      <Label htmlFor="dob">Date of Birth *</Label>
                       <Input
                         type="date"
                         id="dob"
                         value={formData.dob}
                         onChange={handleChange}
+                        className={errors.dob ? "border-red-500" : ""}
                       />
+                      {errors.dob && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.dob}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="gender">Gender *</Label>
@@ -455,12 +531,18 @@ const Admissions = () => {
                         id="gender"
                         value={formData.gender}
                         onChange={handleChange}
+                        className={errors.gender ? "border-red-500" : ""}
                       >
                         <option value="">Select Gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
                       </Select>
+                      {errors.gender && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.gender}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="guardianName">Guardian's Name *</Label>
@@ -468,15 +550,29 @@ const Admissions = () => {
                         id="guardianName"
                         value={formData.guardianName}
                         onChange={handleChange}
+                        className={errors.guardianName ? "border-red-500" : ""}
                       />
+                      {errors.guardianName && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.guardianName}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="phoneNumber">Contact Number *</Label>
                       <Input
                         id="phoneNumber"
+                        type="tel"
+                        placeholder="Contact number "
                         value={formData.phoneNumber}
                         onChange={handleChange}
+                        className={errors.phoneNumber ? "border-red-500" : ""}
                       />
+                      {errors.phoneNumber && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.phoneNumber}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="emailAddress">Email Address *</Label>
@@ -485,7 +581,13 @@ const Admissions = () => {
                         id="emailAddress"
                         value={formData.emailAddress}
                         onChange={handleChange}
+                        className={errors.emailAddress ? "border-red-500" : ""}
                       />
+                      {errors.emailAddress && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.emailAddress}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor="previousSchool">Previous School</Label>
@@ -501,7 +603,13 @@ const Admissions = () => {
                         id="Address"
                         value={formData.Address}
                         onChange={handleChange}
+                        className={errors.Address ? "border-red-500" : ""}
                       />
+                      {errors.Address && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.Address}
+                        </p>
+                      )}
                     </div>
 
                     <div className="sm:col-span-2">
@@ -517,8 +625,21 @@ const Admissions = () => {
                   </div>
 
                   <div className="flex gap-4 mt-6">
-                    <Button type="submit">Submit Application</Button>
-                    <Button type="button" variant="outline">
+                    <Button
+                      type="submit"
+                      disabled={loading}
+                      className={loading ? "opacity-50 cursor-not-allowed" : ""}
+                    >
+                      {loading ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                          Submitting...
+                        </>
+                      ) : (
+                        "Submit Application"
+                      )}
+                    </Button>
+                    <Button type="button" variant="outline" disabled={loading}>
                       Save as Draft
                     </Button>
                   </div>
