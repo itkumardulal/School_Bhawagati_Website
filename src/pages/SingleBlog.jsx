@@ -31,17 +31,20 @@ const SingleBlog = () => {
     if (blog) {
       // Extract first image from content
       const imgMatch = blog.content.match(/<img[^>]+src="([^"]+)"/);
-      const firstImage = imgMatch ? imgMatch[1] : "";
+      const firstImage = imgMatch
+        ? imgMatch[1]
+        : "https://www.hamrobhagawati.com/logo1.png"; // Fallback to website logo
 
-      // Create description (first 150 characters of content without HTML)
+      // Create description (first 160 characters of content without HTML)
       const contentText = blog.content.replace(/<[^>]*>/g, "").trim();
       const description =
-        contentText.length > 150
-          ? contentText.substring(0, 150) + "..."
-          : contentText;
+        contentText.length > 160
+          ? contentText.substring(0, 160) + "..."
+          : contentText ||
+            "Read this interesting article from Bhagawati Secondary School";
 
-      // Set static browser tab title
-      document.title = "Bhagawati Secondary School";
+      // Set dynamic browser tab title
+      document.title = `${blog.title} - Bhagawati Secondary School`;
 
       // Create or update Open Graph meta tags for Facebook sharing
       const updateOrCreateMetaTag = (property, content) => {
@@ -54,22 +57,28 @@ const SingleBlog = () => {
         metaTag.setAttribute("content", content);
       };
 
-      // Update Open Graph meta tags
+      // Update Open Graph meta tags with proper values
       updateOrCreateMetaTag("og:title", blog.title);
       updateOrCreateMetaTag("og:description", description);
       updateOrCreateMetaTag("og:url", window.location.href);
       updateOrCreateMetaTag("og:type", "article");
       updateOrCreateMetaTag("og:site_name", "Bhagawati Secondary School");
+      updateOrCreateMetaTag("og:image", firstImage);
+      updateOrCreateMetaTag("og:image:width", "1200");
+      updateOrCreateMetaTag("og:image:height", "630");
+      updateOrCreateMetaTag("og:image:alt", blog.title);
 
-      if (firstImage) {
-        updateOrCreateMetaTag("og:image", firstImage);
-        updateOrCreateMetaTag("og:image:width", "1200");
-        updateOrCreateMetaTag("og:image:height", "630");
-      }
+      // Add Twitter Card meta tags
+      updateOrCreateMetaTag("twitter:card", "summary_large_image");
+      updateOrCreateMetaTag("twitter:title", blog.title);
+      updateOrCreateMetaTag("twitter:description", description);
+      updateOrCreateMetaTag("twitter:image", firstImage);
 
       // Add article meta tags
       updateOrCreateMetaTag("article:author", blog.author);
       updateOrCreateMetaTag("article:published_time", blog.createdAt);
+      updateOrCreateMetaTag("article:section", blog.category || "General");
+      updateOrCreateMetaTag("article:tag", blog.category || "Education");
     }
   }, [blog]);
 
@@ -91,7 +100,7 @@ const SingleBlog = () => {
           {/* Facebook Share */}
           <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-              window.location.href
+              `https://schoolserver-production-92c2.up.railway.app/blogs/share/${id}`
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -109,7 +118,7 @@ const SingleBlog = () => {
 
         {/* Blog Content */}
         <div
-          className="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed prose prose-lg max-w-none"
+          className="prose prose-lg max-w-none font-body"
           dangerouslySetInnerHTML={{ __html: blog.content }}
         />
 
