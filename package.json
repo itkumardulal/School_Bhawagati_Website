@@ -11,16 +11,13 @@
     "serve": "vite preview --port 5173"
   },
   "dependencies": {
-    "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.11.0",
-    "html2canvas": "^1.4.1",
     "jspdf": "^3.0.3",
     "lucide-react": "^0.544.0",
     "react": "^19.1.0",
     "react-countup": "^6.5.3",
     "react-dom": "^19.1.0",
-    "react-helmet": "^6.1.0",
     "react-router-dom": "^7.7.0",
     "react-toastify": "^11.0.5",
     "tailwindcss": "^4.1.11"
@@ -34,6 +31,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "terser": "^5.44.0",
     "vite": "^7.0.4"
   }
 }
