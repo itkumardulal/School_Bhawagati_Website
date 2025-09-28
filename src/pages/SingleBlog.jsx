@@ -100,7 +100,7 @@ const SingleBlog = () => {
           {/* Facebook Share */}
           <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-              `https://schoolserver-production-92c2.up.railway.app/blogs/share/${id}`
+              `https://www.hamrobhagawati.com/blogs/${id}`
             )}`}
             target="_blank"
             rel="noopener noreferrer"

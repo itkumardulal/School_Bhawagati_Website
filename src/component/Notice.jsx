@@ -6,13 +6,26 @@ import Loader from "./Loader/Loader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import jsPDF from "jspdf";
+import PdfViewer from "./PdfViewer";
+import MobilePdfViewer from "./MobilePdfViewer";
 
 const NoticeSection = () => {
   const navigate = useNavigate();
   const [noticeList, setNoticeList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedNotice, setSelectedNotice] = useState(null);
 
   const currentDomain = window.location.hostname;
+
+  // Detect if device is mobile
+  const isMobile = () => {
+    return (
+      window.innerWidth <= 768 ||
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    );
+  };
 
   // Download notice function
   const handleDownload = async (notice) => {
@@ -135,7 +148,7 @@ const NoticeSection = () => {
               <div
                 key={notice.id}
                 className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 cursor-pointer"
-                onClick={() => navigate("/notice")}
+                onClick={() => setSelectedNotice(notice)}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
@@ -176,6 +189,49 @@ const NoticeSection = () => {
           </div>
         )}
       </div>
+
+      {/* PDF Viewer Modal */}
+      {selectedNotice && (
+        <>
+          {isMobile() ? (
+            <MobilePdfViewer
+              pdfUrl={selectedNotice.pdfUrl}
+              title={selectedNotice.title}
+              fileName={selectedNotice.pdfName || "notice.pdf"}
+              onClose={() => setSelectedNotice(null)}
+              onDownload={() => handleDownload(selectedNotice)}
+            />
+          ) : (
+            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+              <div className="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
+                <PdfViewer
+                  pdfUrl={selectedNotice.pdfUrl}
+                  title={selectedNotice.title}
+                  fileName={selectedNotice.pdfName || "notice.pdf"}
+                  onClose={() => setSelectedNotice(null)}
+                  onDownload={() => handleDownload(selectedNotice)}
+                />
+
+                {/* Notice metadata */}
+                <div className="bg-gray-50 p-4 border-t">
+                  <div className="flex justify-between items-center text-sm text-gray-600">
+                    <span>
+                      Published on:{" "}
+                      {new Date(selectedNotice.createdAt).toLocaleDateString()}
+                    </span>
+                    <button
+                      onClick={() => setSelectedNotice(null)}
+                      className="text-blue-600 hover:text-blue-800 font-medium"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

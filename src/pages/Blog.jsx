@@ -410,7 +410,7 @@ const BlogList = () => {
                         {/* Facebook Share Button */}
                         <a
                           href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                            `https://schoolserver-production-92c2.up.railway.app/blogs/share/${post.id}`
+                            `https://www.hamrobhagawati.com/blogs/${post.id}`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"

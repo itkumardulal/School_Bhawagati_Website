@@ -5,6 +5,8 @@ import API from "../component/http";
 import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
 import Loader from "../component/Loader/Loader";
+import PdfViewer from "../component/PdfViewer";
+import MobilePdfViewer from "../component/MobilePdfViewer";
 
 function Notice() {
   const [notices, setNotices] = useState([]);
@@ -16,6 +18,16 @@ function Notice() {
   const [totalItems, setTotalItems] = useState(0);
 
   const currentDomain = window.location.hostname;
+
+  // Detect if device is mobile
+  const isMobile = () => {
+    return (
+      window.innerWidth <= 768 ||
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    );
+  };
   const fetchNotices = async (showLoader = true, page = 1, append = false) => {
     if (showLoader) {
       setLoading(true);
@@ -191,75 +203,49 @@ function Notice() {
                 )}
             </div>
           </>
+        ) : isMobile() ? (
+          <MobilePdfViewer
+            pdfUrl={selectedNotice.pdfUrl}
+            title={selectedNotice.title}
+            fileName={selectedNotice.pdfName || "notice.pdf"}
+            onClose={() => setSelectedNotice(null)}
+            onDownload={() =>
+              handleDownload(
+                selectedNotice.pdfUrl,
+                selectedNotice.pdfName || "notice.pdf"
+              )
+            }
+          />
         ) : (
-          <div className="space-y-6">
-            <button
-              onClick={() => setSelectedNotice(null)}
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              <span>Back to Notices</span>
-            </button>
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <PdfViewer
+              pdfUrl={selectedNotice.pdfUrl}
+              title={selectedNotice.title}
+              fileName={selectedNotice.pdfName || "notice.pdf"}
+              onClose={() => setSelectedNotice(null)}
+              onDownload={() =>
+                handleDownload(
+                  selectedNotice.pdfUrl,
+                  selectedNotice.pdfName || "notice.pdf"
+                )
+              }
+            />
 
-            <h2 className="text-3xl font-bold text-gray-800">
-              {selectedNotice.title}
-            </h2>
-
-            <div className="rounded-lg p-4 bg-gray-50 border border-gray-300 flex justify-center">
-              {selectedNotice.fileType === "image" ? (
-                <img
-                  src={selectedNotice.pdfUrl}
-                  alt={selectedNotice.title}
-                  className="max-w-full h-auto sm:max-h-[500px]"
-                />
-              ) : (
-                <iframe
-                  src={selectedNotice.pdfUrl}
-                  className="w-full h-[400px] sm:h-[500px] rounded"
-                  title="Notice File"
-                />
-              )}
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                onClick={() =>
-                  handleDownload(
-                    selectedNotice.pdfUrl,
-                    selectedNotice.pdfName || "notice.pdf"
-                  )
-                }
-                className="px-4 py-2 flex items-center space-x-2 bg-green-600 rounded-md text-sm font-medium text-white hover:bg-green-700"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
+            {/* Notice metadata */}
+            <div className="bg-gray-50 p-4 border-t">
+              <div className="flex justify-between items-center text-sm text-gray-600">
+                <span>
+                  Published on:{" "}
+                  {new Date(selectedNotice.createdAt).toLocaleDateString()}
+                </span>
+                <button
+                  onClick={() => setSelectedNotice(null)}
+                  className="text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  <path d="M12 16a1 1 0 0 1-.707-.293l-5-5a1 1 0 1 1 1.414-1.414L11 12.586V4a1 1 0 1 1 2 0v8.586l3.293-3.293a1 1 0 0 1 1.414 1.414l-5 5A1 1 0 0 1 12 16ZM4 20a1 1 0 0 1 0-2h16a1 1 0 1 1 0 2H4Z" />
-                </svg>
-                <span>Download</span>
-              </button>
+                  Back to Notices
+                </button>
+              </div>
             </div>
-
-            <p className="text-sm text-gray-500">
-              Published on:{" "}
-              {new Date(selectedNotice.createdAt).toLocaleDateString()}
-            </p>
           </div>
         )}
       </div>

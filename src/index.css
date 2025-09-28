@@ -53,6 +53,26 @@
   word-spacing: 0.1em;
 }
 
+/* Ensure HTML tags are never visible - more aggressive approach */
+.prose script,
+.prose style,
+.prose noscript {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide any stray HTML tags that might show up */
+.prose *[style*="display: none"],
+.prose *[style*="visibility: hidden"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Ensure proper rendering */
+.prose {
+  font-display: swap;
+}
+
 .prose h1 {
   color: #111827;
   font-weight: 800;
