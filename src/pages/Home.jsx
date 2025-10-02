@@ -10,10 +10,12 @@ import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
 import Message from "../component/Message";
 import Contact from "../component/Contact";
+import SEO, { SEOConfigs } from "../component/SEO";
 
 const Home = () => {
   return (
     <>
+      <SEO {...SEOConfigs.home} />
       <Navbar />
       <Hero />
       <Stats />

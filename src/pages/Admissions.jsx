@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Calendar,
   FileText,
@@ -236,6 +236,25 @@ const Admissions = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
+  // Scroll to application form when coming from "Apply Now" button
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const scrollToForm = urlParams.get("scrollToForm");
+
+    if (scrollToForm === "true") {
+      // Small delay to ensure page is fully loaded
+      setTimeout(() => {
+        const formElement = document.getElementById("application-form");
+        if (formElement) {
+          formElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 100);
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { id, value } = e.target;
 
@@ -445,7 +464,10 @@ const Admissions = () => {
           </section>
 
           {/* Online Application Form */}
-          <section className="mb-20 max-w-4xl mx-auto px-4">
+          <section
+            id="application-form"
+            className="mb-20 max-w-4xl mx-auto px-4"
+          >
             <Card className="shadow-lg">
               <CardHeader>
                 <CardTitle className="text-xl sm:text-2xl md:text-3xl text-blue-700 mb-2">

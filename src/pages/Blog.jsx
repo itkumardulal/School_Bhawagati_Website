@@ -13,6 +13,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import Navbar from "../component/Navbar";
+import SEO, { SEOConfigs } from "../component/SEO";
 import Footer from "../component/Footer";
 import API from "../component/http";
 import Loader from "../component/Loader/Loader";
@@ -235,12 +236,13 @@ const BlogList = () => {
     }, 800); // Increased to 800ms for better UX
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery, selectedCategory, hasInitialLoad]);
+  }, [searchQuery, selectedCategory]); // Removed hasInitialLoad from dependencies
 
   if (loading) return <Loader />;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-green-50">
+      <SEO {...SEOConfigs.blogs} />
       <ToastContainer position="top-right" autoClose={2000} />
       <Navbar />
 

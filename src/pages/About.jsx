@@ -3,6 +3,7 @@ import { Calendar, Award, Lightbulb } from "lucide-react";
 import Footer from "../component/Footer";
 import Navbar from "../component/Navbar";
 import Message from "../component/Message";
+import SEO, { SEOConfigs } from "../component/SEO";
 
 const initiatives = [
   "Best Classroom of the Week",
@@ -49,6 +50,7 @@ const staff = [
 const About = () => {
   return (
     <>
+      <SEO {...SEOConfigs.about} />
       <Navbar />
       <div className="min-h-screen py-12 bg-gradient-to-br from-blue-50 to-white text-gray-800">
         <div className="max-w-7xl mx-auto px-4">

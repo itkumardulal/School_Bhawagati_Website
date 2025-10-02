@@ -1,14 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  GraduationCap,
-  Phone,
-  Mail,
-  MapPin,
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
-} from "lucide-react";
+import { GraduationCap, Phone, Mail, MapPin, Facebook } from "lucide-react";
 
 const quickLinks = [
   { name: "About Us", to: "/about" },
@@ -33,8 +24,6 @@ const contactInfo = [
   { icon: Mail, text: " bhagawati.hses@gmail.com , info@bhagawatishool.com" },
 ];
 
-const socialIcons = [Facebook, Twitter, Instagram, Youtube];
-
 const Footer = () => {
   return (
     <footer className="bg-blue-900 text-blue-100 py-8 px-4">
@@ -51,12 +40,15 @@ const Footer = () => {
             A blend of Culture and Quality education
           </p>
           <div className="flex justify-center md:justify-start space-x-3">
-            {socialIcons.map((Icon, idx) => (
-              <Icon
-                key={idx}
-                className="h-6 w-6 cursor-pointer text-blue-200 hover:text-yellow-400 transition-colors"
-              />
-            ))}
+            <a
+              href="https://www.facebook.com/Bhagawatienglishschool"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-200 hover:text-yellow-400 transition-colors"
+              title="Follow us on Facebook"
+            >
+              <Facebook className="h-6 w-6 cursor-pointer" />
+            </a>
           </div>
         </div>
 

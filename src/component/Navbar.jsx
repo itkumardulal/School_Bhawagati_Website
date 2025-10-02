@@ -104,7 +104,7 @@ const Navbar = () => {
             </div>
 
             <Link
-              to="/admissions"
+              to="/admissions?scrollToForm=true"
               className="ml-2 mr-2 px-3 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition text-lg font-button"
             >
               Apply Now
@@ -171,7 +171,7 @@ const Navbar = () => {
             </div>
 
             <Link
-              to="/admissions"
+              to="/admissions?scrollToForm=true"
               onClick={() => setIsOpen(false)}
               className="mt-4 w-full text-center px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition font-button"
             >

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading Blog Post - Bhagawati Secondary School</title>
+
+    <!-- This will be populated by JavaScript -->
+    <meta name="description" content="" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Bhagawati Secondary School" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="" />
+    <meta name="twitter:description" content="" />
+    <meta name="twitter:image" content="" />
+
+    <!-- Redirect to actual blog page -->
+    <meta
+      http-equiv="refresh"
+      content="0; url=https://www.hamrobhagawati.com/blogs/"
+    />
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 50px;
+        background: #f5f5f5;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .loading {
+        color: #666;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="loading">Loading blog post...</div>
+    </div>
+
+    <script>
+      // Extract blog ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const blogId = urlParams.get("id");
+
+      if (blogId) {
+        // Fetch blog data from your API
+        fetch("${import.meta.env.VITE_URL}/blogs/spa/" + blogId)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success && data.data) {
+              const blog = data.data;
+
+              // Extract first image from content
+              const imgMatch = blog.content.match(
+                /<img[^>]+src=["']([^"']+)["'][^>]*>/i
+              );
+              let firstImage = imgMatch ? imgMatch[1] : null;
+
+              // If relative URL, make it absolute
+              if (firstImage && firstImage.startsWith("/")) {
+                firstImage = "https://www.hamrobhagawati.com" + firstImage;
+              } else if (firstImage && firstImage.startsWith("./")) {
+                firstImage =
+                  "https://www.hamrobhagawati.com" + firstImage.substring(1);
+              }
+
+              // Create description
+              const contentText = blog.content.replace(/<[^>]*>/g, "").trim();
+              const description =
+                contentText.length > 160
+                  ? contentText.substring(0, 160) + "..."
+                  : contentText ||
+                    "Read this interesting article from Bhagawati Secondary School";
+
+              // Update meta tags
+              document.title = blog.title + " - Bhagawati Secondary School";
+              document
+                .querySelector('meta[name="description"]')
+                .setAttribute("content", description);
+              document
+                .querySelector('meta[property="og:title"]')
+                .setAttribute("content", blog.title);
+              document
+                .querySelector('meta[property="og:description"]')
+                .setAttribute("content", description);
+              document
+                .querySelector('meta[property="og:image"]')
+                .setAttribute(
+                  "content",
+                  firstImage ||
+                    "https://www.hamrobhagawati.com/assets/logo1.png"
+                );
+              document
+                .querySelector('meta[property="og:url"]')
+                .setAttribute(
+                  "content",
+                  "https://www.hamrobhagawati.com/blogs/" + blogId
+                );
+              document
+                .querySelector('meta[name="twitter:title"]')
+                .setAttribute("content", blog.title);
+              document
+                .querySelector('meta[name="twitter:description"]')
+                .setAttribute("content", description);
+              document
+                .querySelector('meta[name="twitter:image"]')
+                .setAttribute(
+                  "content",
+                  firstImage ||
+                    "https://www.hamrobhagawati.com/assets/logo1.png"
+                );
+
+              // Redirect to actual blog page
+              window.location.href =
+                "https://www.hamrobhagawati.com/blogs/" + blogId;
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching blog:", error);
+            window.location.href = "https://www.hamrobhagawati.com/blogs/";
+          });
+      } else {
+        window.location.href = "https://www.hamrobhagawati.com/blogs/";
+      }
+    </script>
+  </body>
+</html>

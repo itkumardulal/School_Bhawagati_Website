@@ -13,11 +13,13 @@ import Blog from "./pages/Blog";
 import Clubs from "./pages/Club";
 import SingleBlog from "./pages/SingleBlog";
 import ErrorBoundary from "./component/ErrorBoundary";
+import ScrollToTop from "./component/ScrollToTop";
 
 const App = () => {
   return (
     <ErrorBoundary>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
